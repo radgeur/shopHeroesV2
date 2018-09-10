@@ -1,5 +1,8 @@
 package apiRest.database.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,24 +24,24 @@ public class PlayerController {
 	@RequestMapping(method = RequestMethod.GET)
 	public Player getPlayer(@RequestParam(value="name") String name, @RequestParam(value="password") String password) {
 		SqlSession session = MyBatisUtil.getSession();
-		Player result = (Player) session.selectOne("selectPlayer", new Player(name, password));
-		session.close();
+		Map<String, String> map = new HashMap<>();
+		map.put("name", name);
+		map.put("password", password);
+		Player result = new Player();
+		try {
+			final PlayerMapper mapper = session.getMapper(PlayerMapper.class);
+			result = mapper.selectPlayer(map);
+		} catch (Exception e) {
+			session.rollback();
+		} finally {
+			session.close();
+		}
 		return result;
 	}
 	
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	public Player signUp(@RequestBody Player player) {
 		SqlSession session = MyBatisUtil.getSession();
-		Player result = new Player();
-		try {
-			final PlayerMapper mapper = session.getMapper(PlayerMapper.class);
-			mapper.insertPlayer(player);
-			result = mapper.selectPlayer(player.getName(), player.getPassword());
-		} catch (Exception e) {
-			
-		}
-		return result;
-		/*SqlSession session = MyBatisUtil.getSession();
 		session.insert("insertPlayer", player);
 		Player result = new Player();
 		try{
@@ -49,7 +52,7 @@ public class PlayerController {
 		}finally{
 			session.close();
 		}
-		return result;*/
+		return result;
 	}
 	
 	@RequestMapping(value = "/updateStoneQuantity", method = RequestMethod.POST)
