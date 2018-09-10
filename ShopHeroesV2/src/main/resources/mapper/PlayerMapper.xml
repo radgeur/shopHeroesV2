@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="apiRest.database.mapper.PlayerMapper">
+
+	<select id="selectPlayer" parameterType="apiRest.database.classe.Player" resultMap="playerResultMap">
+		SELECT *
+		FROM player p
+		WHERE p.name = #{name} AND p.password = #{password}
+	</select>
+	
+	<select id="selectPlayerById" parameterType="apiRest.database.classe.Player" resultMap="playerResultMap">
+		SELECT *
+		FROM player p
+		WHERE p.id = #{id}
+	</select>
+	
+	<resultMap type="apiRest.database.classe.Player" id="playerResultMap">
+		<id 	property="id"				column="id" />
+		<result property="name" 			column="name" />
+		<result property="password"			column="password" />
+		<result property="level" 			column="level" />
+		<result property="stoneQuantity" 	column="stoneQuantity" />
+		<result property="leatherQuantity" 	column="leatherQuantity" />
+		<result property="herbQuantity" 	column="herbQuantity" />
+		<result property="woodQuantity" 	column="woodQuantity" />
+		<result property="admin"			column="admin" />
+		<result property="gold"				column="gold" />
+	</resultMap>
+	
+	<insert id="insertPlayer" parameterType="apiRest.database.classe.Player" keyProperty="id">
+		INSERT INTO player(name, password) 
+			values (#{name},#{password})
+	</insert>
+	
+	<update id="updateStoneQuantity" parameterType="apiRest.database.classe.Player">
+		UPDATE player SET
+			"stoneQuantity" = #{stoneQuantity}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateWoodQuantity" parameterType="apiRest.database.classe.Player">
+		UPDATE player SET
+			"woodQuantity" = #{woodQuantity}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateLeatherQuantity" parameterType="apiRest.database.classe.Player">
+		UPDATE player SET
+			"leatherQuantity" = #{leatherQuantity}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateHerbQuantity" parameterType="apiRest.database.classe.Player">
+		UPDATE player SET
+			"herbQuantity" = #{herbQuantity}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateQuantities" parameterType="apiRest.database.classe.Player">
+		UPDATE player SET
+			"stoneQuantity" = #{stoneQuantity}, "woodQuantity" = #{woodQuantity}, "leatherQuantity" = #{leatherQuantity}, "herbQuantity" = #{herbQuantity}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

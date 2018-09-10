@@ -1,0 +1,15 @@
+<h1>{{player.name}}</h1> 
+<h2>Level {{player.level}}</h2>
+
+<button id="signOut" (click)="signOut()">Sign Out</button>
+
+<div>
+  stone : {{player.stoneQuantity}} | wood : {{player.woodQuantity}} 
+  | leather : {{player.leatherQuantity}} | herb : {{player.herbQuantity}}
+  <nav>
+    <a routerLink="./resources">Resources</a>
+    <a routerLink="./artisants">Workers</a>
+  </nav>
+  <router-outlet></router-outlet>
+
+</div>

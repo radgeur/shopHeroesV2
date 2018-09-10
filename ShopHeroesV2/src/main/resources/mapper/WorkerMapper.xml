@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.WorkerMapper">
+
+	<!-- <resultMap type="apiRest.database.classe.Worker" id="workerResultMap" extends="jobResultMap">
+		<id		property="id"			column="id" />
+		<result property="name"			column="name" />
+		<association property="job"		javaType="apiRest.database.classe.Job" resultMap="jobResultMap"/>
+	</resultMap>
+	
+	<select id="selectAllWorkers" parameterType="apiRest.database.classe.Worker" resultMap="workerResultMap">
+		SELECT *
+		FROM artisan LEFT JOIN job on artisan.job = job.id
+	</select> -->
+</mapper>

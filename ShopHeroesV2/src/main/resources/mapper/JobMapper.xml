@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.JobMapper">
+
+	<resultMap type="apiRest.database.classe.Job" id="jobResultMap">
+		<id 	property="id"			column="id" />
+		<result property="name"			column="name" />
+	</resultMap>
+	
+	<insert id="insertJob" parameterType="apiRest.database.classe.Job" keyProperty="id">
+		INSERT INTO job(name) values (#{name})
+	</insert>
+
+</mapper>

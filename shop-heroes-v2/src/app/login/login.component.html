@@ -1,0 +1,18 @@
+<h1>Login</h1>
+<div>
+  <form (ngSubmit)="signUp(f)" #f="ngForm">
+    <label>Username<br />
+      <input name="name" ngModel/>
+    </label> <br />
+    <label>Password<br />
+      <input name="password" type="password" ngModel/>
+    </label>
+    <br />
+    <button type="submit">
+      Login
+    </button>
+    <button routerLink="/register">
+      Register
+    </button>
+  </form>
+</div>

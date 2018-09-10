@@ -1,0 +1,39 @@
+<div>
+  <button (click) = "updateStoneQuantity(1)">
+    +1 stone
+  </button>
+  <button (click) = "updateWoodQuantity(1)">
+    +1 wood
+  </button>
+  <button (click) = "updateLeatherQuantity(1)">
+    +1 leather
+  </button>
+  <button (click) = "updateHerbQuantity(1)">
+    +1 herb
+  </button>
+
+
+  <div *ngIf="player.admin">
+    <br/><br/>
+    <label> Stone:
+      <input #stone/>
+    </label>
+    <br />
+    <label> Wood:
+      <input #wood/>
+    </label>
+    <br />
+    <label> Leather:
+      <input #leather/>
+    </label>
+    <br />
+    <label> Herb:
+      <input #herb/>
+    </label>
+    <br />
+    <button (click)="updateQuantities(stone.value, wood.value, leather.value, herb.value);
+      stone.value=''; wood.value=''; leather.value=''; herb.value=''">
+      Update quantities
+    </button>
+  </div>
+</div>
