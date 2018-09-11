@@ -7,7 +7,6 @@ import lombok.Setter;
 @Setter
 public class Worker {
 	
-	
 	private int id;
 	private String name;
 	private Job job;

@@ -7,13 +7,6 @@ import lombok.Setter;
 @Setter
 public class Player {
 	
-	public Player() {}
-	
-	public Player(String name, String password) {
-		this.name = name;
-		this.password = password;
-	}
-	
 	private long id;
 	private String name;
 	private String password;

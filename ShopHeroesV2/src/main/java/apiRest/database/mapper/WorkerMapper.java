@@ -1,0 +1,11 @@
+package apiRest.database.mapper;
+
+import java.util.List;
+
+import apiRest.database.classe.Worker;
+
+public interface WorkerMapper {
+
+	public List<Worker> selectAllWorkers();
+	
+}

@@ -27,12 +27,11 @@ public class PlayerController {
 		Map<String, String> map = new HashMap<>();
 		map.put("name", name);
 		map.put("password", password);
-		Player result = new Player();
+		Player result = null;
 		try {
 			final PlayerMapper mapper = session.getMapper(PlayerMapper.class);
 			result = mapper.selectPlayer(map);
 		} catch (Exception e) {
-			session.rollback();
 		} finally {
 			session.close();
 		}
@@ -42,9 +41,10 @@ public class PlayerController {
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	public Player signUp(@RequestBody Player player) {
 		SqlSession session = MyBatisUtil.getSession();
-		session.insert("insertPlayer", player);
-		Player result = new Player();
+		Player result = null;
 		try{
+			final PlayerMapper mapper = session.getMapper(PlayerMapper.class);
+			mapper.insertPlayer(player);
 			session.commit();
 			result = getPlayer(player.getName(), player.getPassword());
 		}catch(Exception e){
@@ -58,10 +58,12 @@ public class PlayerController {
 	@RequestMapping(value = "/updateStoneQuantity", method = RequestMethod.POST)
 	public Player updateStone(@RequestBody Player player, @RequestParam(value="quantity") int quantity) {
 		SqlSession session = MyBatisUtil.getSession();
-		Player result = (Player) session.selectOne("selectPlayerById", player.getId());
-		result.setStoneQuantity(result.getStoneQuantity() + quantity);
-		session.update("updateStoneQuantity", result);
+		Player result = null;
 		try{
+			final PlayerMapper mapper = session.getMapper(PlayerMapper.class);
+			result = mapper.selectPlayerById(player.getId());
+			result.setStoneQuantity(result.getStoneQuantity() + quantity);
+			mapper.updateStoneQuantity(result);
 			session.commit();
 		}catch(Exception e){
 			session.rollback();
@@ -74,10 +76,12 @@ public class PlayerController {
 	@RequestMapping(value = "/updateWoodQuantity", method = RequestMethod.POST)
 	public Player updateWood(@RequestBody Player player, @RequestParam(value="quantity") int quantity) {
 		SqlSession session = MyBatisUtil.getSession();
-		Player result = (Player) session.selectOne("selectPlayerById", player.getId());
-		result.setWoodQuantity(result.getWoodQuantity() + quantity);
-		session.update("updateWoodQuantity", result);
+		Player result = null;
 		try{
+			final PlayerMapper mapper = session.getMapper(PlayerMapper.class);
+			result = mapper.selectPlayerById(player.getId());
+			result.setWoodQuantity(result.getWoodQuantity() + quantity);
+			mapper.updateWoodQuantity(result);
 			session.commit();
 		}catch(Exception e){
 			session.rollback();
@@ -90,10 +94,12 @@ public class PlayerController {
 	@RequestMapping(value = "/updateLeatherQuantity", method = RequestMethod.POST)
 	public Player updateLeather(@RequestBody Player player, @RequestParam(value="quantity") int quantity) {
 		SqlSession session = MyBatisUtil.getSession();
-		Player result = (Player) session.selectOne("selectPlayerById", player.getId());
-		result.setLeatherQuantity(result.getLeatherQuantity() + quantity);
-		session.update("updateLeatherQuantity", result);
+		Player result = null;
 		try{
+			final PlayerMapper mapper = session.getMapper(PlayerMapper.class);
+			result = mapper.selectPlayerById(player.getId());
+			result.setLeatherQuantity(result.getLeatherQuantity() + quantity);
+			mapper.updateLeatherQuantity(result);
 			session.commit();
 		}catch(Exception e){
 			session.rollback();
@@ -106,10 +112,12 @@ public class PlayerController {
 	@RequestMapping(value = "/updateHerbQuantity", method = RequestMethod.POST)
 	public Player udpateHerb(@RequestBody Player player, @RequestParam(value="quantity") int quantity) {
 		SqlSession session = MyBatisUtil.getSession();
-		Player result = (Player) session.selectOne("selectPlayerById", player.getId());
-		result.setHerbQuantity(result.getHerbQuantity() + quantity);
-		session.update("updateHerbQuantity", result);
+		Player result = null;
 		try{
+			final PlayerMapper mapper = session.getMapper(PlayerMapper.class);
+			result = mapper.selectPlayerById(player.getId());
+			result.setHerbQuantity(result.getHerbQuantity() + quantity);
+			mapper.updateHerbQuantity(result);
 			session.commit();
 		}catch(Exception e){
 			session.rollback();
@@ -124,15 +132,15 @@ public class PlayerController {
 			@RequestParam(value="stoneQuantity") int stoneQuantity, @RequestParam(value="woodQuantity") int woodQuantity,
 			@RequestParam(value="leatherQuantity") int leatherQuantity, @RequestParam(value="herbQuantity") int herbQuantity) {
 		SqlSession session = MyBatisUtil.getSession();
-		Player result = (Player) session.selectOne("selectPlayerById", player.getId());
-		
-		result.setStoneQuantity(result.getStoneQuantity() + leatherQuantity);
-		result.setWoodQuantity(result.getWoodQuantity() + woodQuantity);
-		result.setLeatherQuantity(result.getLeatherQuantity() + leatherQuantity);
-		result.setHerbQuantity(result.getHerbQuantity() + herbQuantity);
-		session.update("updateQuantities", result);
-		
+		Player result = null;
 		try{
+			final PlayerMapper mapper = session.getMapper(PlayerMapper.class);
+			result = mapper.selectPlayerById(player.getId());
+			result.setStoneQuantity(result.getStoneQuantity() + leatherQuantity);
+			result.setWoodQuantity(result.getWoodQuantity() + woodQuantity);
+			result.setLeatherQuantity(result.getLeatherQuantity() + leatherQuantity);
+			result.setHerbQuantity(result.getHerbQuantity() + herbQuantity);
+			mapper.updateQuantities(result);
 			session.commit();
 		}catch(Exception e){
 			session.rollback();

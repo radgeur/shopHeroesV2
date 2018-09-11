@@ -8,7 +8,7 @@ public interface PlayerMapper {
 	
 	public Player selectPlayer(Map<String, String> map);
 	
-	public Player selectPlayerById(int id);
+	public Player selectPlayerById(long id);
 	
 	public void insertPlayer(Player player);
 	

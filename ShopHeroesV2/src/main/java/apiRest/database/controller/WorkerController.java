@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import apiRest.MyBatisUtil;
 import apiRest.database.classe.Worker;
+import apiRest.database.mapper.WorkerMapper;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -19,11 +20,12 @@ public class WorkerController {
 	@RequestMapping(value = "all", method = RequestMethod.POST)
 	public List<Worker> getAll() {
 		SqlSession session = MyBatisUtil.getSession();
-		List<Worker> workers = (List<Worker>) session.selectList("selectAllWorkers");
+		List<Worker> workers = null;
 		try{
-			session.commit();
+			WorkerMapper mapper = session.getMapper(WorkerMapper.class);
+			workers = (List<Worker>) session.selectList("selectAllWorkers");
+			//workers = mapper.selectAllWorkers();
 		}catch(Exception e){
-			session.rollback();
 		}finally{
 			session.close();
 		}
