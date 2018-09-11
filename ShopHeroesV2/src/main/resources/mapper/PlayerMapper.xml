@@ -12,7 +12,7 @@
 		<result property="herbQuantity" 	column="herbQuantity" />
 		<result property="woodQuantity" 	column="woodQuantity" />
 		<result property="admin"			column="admin" />
-		<result property="gold"				column="gold" />
+		<result property="golds"			column="golds" />
 	</resultMap>
 
 	<select id="selectPlayer" parameterType="map" resultMap="playerResultMap">

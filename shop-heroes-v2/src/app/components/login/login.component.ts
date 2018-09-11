@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {NgForm} from '@angular/forms';
 
-import { PlayerService } from '../player.service';
-import { Player } from '../player'
+import { PlayerService } from '../../services/player.service';
 
 @Component({
   selector: 'app-login',

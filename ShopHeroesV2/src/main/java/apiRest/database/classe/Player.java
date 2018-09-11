@@ -16,6 +16,6 @@ public class Player {
 	private int herbQuantity;
 	private int woodQuantity;
 	private boolean admin;
-	private int gold;
+	private int golds;
 	
 }

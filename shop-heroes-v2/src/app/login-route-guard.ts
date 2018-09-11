@@ -2,7 +2,7 @@ import { CanActivate } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { PlayerService } from './player.service';
+import { PlayerService } from './services/player.service';
 
 @Injectable()
 export class LoginRouteGuard implements CanActivate {

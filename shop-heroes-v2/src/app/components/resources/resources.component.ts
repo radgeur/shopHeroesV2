@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import { PlayerService } from '../player.service';
-import { SharedService } from '../shared.service';
+import { PlayerService } from '../../services/player.service';
+import { SharedService } from '../../services/shared.service';
 import {DashboardComponent} from '../dashboard/dashboard.component';
-import {Player} from '../player';
+import {Player} from '../../objects/player';
 
 @Component({
   selector: 'app-resources',

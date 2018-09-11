@@ -6,12 +6,12 @@ import{FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './/app-routing.module';
-import { ResourcesComponent } from './resources/resources.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { ArtisantsComponent } from './artisants/artisants.component';
-import { RecipesComponent } from './recipes/recipes.component';
+import { ResourcesComponent } from './components/resources/resources.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ArtisantsComponent } from './components/artisants/artisants.component';
+import { RecipesComponent } from './components/recipes/recipes.component';
 import { LoginRouteGuard } from './login-route-guard';
 
 @NgModule({

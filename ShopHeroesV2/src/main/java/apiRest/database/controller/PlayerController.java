@@ -39,7 +39,7 @@ public class PlayerController {
 	}
 	
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
-	public Player signUp(@RequestBody Player player) {
+	public Player signUp(Player player) {
 		SqlSession session = MyBatisUtil.getSession();
 		Player result = null;
 		try{

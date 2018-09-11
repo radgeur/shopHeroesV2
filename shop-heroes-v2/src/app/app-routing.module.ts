@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ResourcesComponent} from './resources/resources.component'
-import { RegisterComponent } from './register/register.component'
-import { LoginComponent } from './login/login.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { ResourcesComponent} from './components/resources/resources.component'
+import { RegisterComponent } from './components/register/register.component'
+import { LoginComponent } from './components/login/login.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LoginRouteGuard } from './login-route-guard';
-import { ArtisantsComponent } from './artisants/artisants.component';
+import { ArtisantsComponent } from './components/artisants/artisants.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },

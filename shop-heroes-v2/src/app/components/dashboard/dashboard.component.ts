@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import {Player} from '../player'
-import {SharedService} from '../shared.service'
+import {Player} from '../../objects/player'
+import {SharedService} from '../../services/shared.service'
 
 @Component({
   selector: 'app-dashboard',

@@ -1,6 +1,7 @@
 package apiRest.database.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import apiRest.MyBatisUtil;
+import apiRest.database.classe.Job;
 import apiRest.database.mapper.JobMapper;
 
 @CrossOrigin(origins = "*")
@@ -18,7 +20,7 @@ import apiRest.database.mapper.JobMapper;
 @RequestMapping("/job")
 public class JobController {
 	
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST, value="add")
 	public void addJob(@RequestParam(value="name") String name) {
 		SqlSession session = MyBatisUtil.getSession();
 		try{
@@ -32,6 +34,20 @@ public class JobController {
 		}finally{
 			session.close();
 		}
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value="selectAll")
+	public List<Job> selectAll() {
+		SqlSession session = MyBatisUtil.getSession();
+		List<Job> result = null;
+		try{
+			JobMapper mapper = session.getMapper(JobMapper.class);
+			result = mapper.selectAllJobs();
+		}catch(Exception e){
+		}finally{
+			session.close();
+		}
+		return result;
 	}
 
 }

@@ -5,7 +5,8 @@
 	<resultMap type="apiRest.database.classe.Job" id="jobResultMap">
 		<id 	property="id"			column="id" />
 		<result property="name"			column="name" />
-	</resultMap>
+		<result property="golds"		column="golds" />
+ 	</resultMap>
 	
 	<insert id="insertJob" parameterType="apiRest.database.classe.Job" keyProperty="id">
 		INSERT INTO job(name) values (#{name})
@@ -15,6 +16,11 @@
 		SELECT *
 		FROM job
 		WHERE id=#{id}
+	</select>
+	
+	<select id="selectAllJobs" parameterType="apiRest.database.classe.Job" resultMap="jobResultMap">
+		SELECT *
+		FROM job
 	</select>
 	
 </mapper>

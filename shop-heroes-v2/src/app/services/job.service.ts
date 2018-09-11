@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Player } from './player';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
+
+import { Job } from '../objects/job'
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -22,6 +23,13 @@ export class JobService {
     return this.http.post(`${root}/add?name=${name}`, httpOptions)
       .pipe(
         catchError(this.handleError<any>(`addJob`))
+      );
+  }
+
+  selectAll(): Observable<any> {
+    return this.http.get(`${root}/selectAll`, httpOptions)
+      .pipe(
+        catchError(this.handleError<any>(`selectAll`))
       );
   }
 

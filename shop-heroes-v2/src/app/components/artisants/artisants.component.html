@@ -1,0 +1,37 @@
+<div *ngIf="player.admin">
+  <h3> Add a new Job</h3>
+  <form (ngSubmit)="addJob(f)" #f="ngForm">
+    <label>Name :
+      <input name="name" ngModel/>
+    </label>
+    <button type="submit">
+      Add
+    </button>
+  </form>
+</div>
+
+<div *ngIf="player.admin">
+  <h3> Add a new Worker</h3>
+  <form (ngSubmit)="addWorker(f)" #f="ngForm">
+    <label>Name :
+      <input name="name" ngModel/>
+    </label>
+    <br />
+    <label>Golds :
+      <input name="gold" ngModel/>
+    </label>
+    <br />
+    <label> Job :
+      <select name="job" ngModel>
+        <option *ngFor="let job of jobs" [ngValue]="job.id">
+          {{job.name}}
+        </option>
+      </select>
+    </label>
+    <br />
+    <button type="submit">
+      Add
+    </button>
+  </form>
+</div>
+

@@ -23,8 +23,7 @@ public class WorkerController {
 		List<Worker> workers = null;
 		try{
 			WorkerMapper mapper = session.getMapper(WorkerMapper.class);
-			workers = (List<Worker>) session.selectList("selectAllWorkers");
-			//workers = mapper.selectAllWorkers();
+			workers = mapper.selectAllWorkers();
 		}catch(Exception e){
 		}finally{
 			session.close();
