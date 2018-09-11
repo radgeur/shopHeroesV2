@@ -16,6 +16,6 @@
 	</select>
 	
 	<insert id="insertWorker" parameterType="apiRest.database.classe.Worker" keyProperty="id">
-		INSERT INTO worker(name, golds, job) values (${name}, ${golds}, ${job})
+		INSERT INTO artisan(name, golds, job) values (#{name}, #{golds}, #{job.id})
 	</insert>
 </mapper>

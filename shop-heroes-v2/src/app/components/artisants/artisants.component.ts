@@ -41,8 +41,8 @@ export class ArtisantsComponent implements OnInit{
 
   addWorker(form: NgForm) {
     var worker = new Worker(form.value["name"], form.value["golds"], form.value["job"]);
-    console.log(form.value);
-    this.workerService.add(worker);
+    console.log(worker);
+    this.workerService.add(worker).subscribe();
   }
 
 }

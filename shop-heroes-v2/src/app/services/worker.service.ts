@@ -20,6 +20,7 @@ export class WorkerService {
   constructor(private http: HttpClient) { }
 
   add(worker: Worker): Observable<any> {
+      console.log(worker);
     return this.http.post(`${root}/insert`, worker, httpOptions)
       .pipe(
         catchError(this.handleError<any>('addWorker'))
