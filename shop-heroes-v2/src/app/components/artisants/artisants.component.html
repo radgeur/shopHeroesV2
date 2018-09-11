@@ -18,12 +18,12 @@
     </label>
     <br />
     <label>Golds :
-      <input name="gold" ngModel/>
+      <input type="number" name="gold" ngModel/>
     </label>
     <br />
     <label> Job :
       <select name="job" ngModel>
-        <option *ngFor="let job of jobs" [ngValue]="job.id">
+        <option *ngFor="let job of jobs" [ngValue]="job">
           {{job.name}}
         </option>
       </select>

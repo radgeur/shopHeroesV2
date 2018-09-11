@@ -27,7 +27,7 @@
 		WHERE p.id = #{id}
 	</select>
 	
-	<insert id="insertPlayer" parameterType="apiRest.database.classe.Player" keyProperty="id">
+	<insert id="insertPlayer" parameterType="apiRest.database.classe.Player" keyProperty="id" useGeneratedKeys="true" keyColumn="id">
 		INSERT INTO player(name, password) 
 			values (#{name},#{password})
 	</insert>

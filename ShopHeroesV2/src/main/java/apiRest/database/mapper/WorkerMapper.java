@@ -8,4 +8,6 @@ public interface WorkerMapper {
 
 	public List<Worker> selectAllWorkers();
 	
+	public void insertWorker(Worker worker);
+	
 }

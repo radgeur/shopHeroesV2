@@ -5,6 +5,7 @@
 	<resultMap type="apiRest.database.classe.Worker" id="workerResultMap">
 		<id		property="id"			column="id" />
 		<result property="name"			column="name" />
+		<result property="golds"		column="golds" />
 		<association property="job"		javaType="apiRest.database.classe.Job"
 			select="apiRest.database.mapper.JobMapper.selectJobById" column="job"/>
 	</resultMap>
@@ -12,5 +13,9 @@
 	<select id="selectAllWorkers" parameterType="apiRest.database.classe.Worker" resultMap="workerResultMap">
 		SELECT *
 		FROM artisan
-	</select> 
+	</select>
+	
+	<insert id="insertWorker" parameterType="apiRest.database.classe.Worker" keyProperty="id">
+		INSERT INTO worker(name, golds, job) values (${name}, ${golds}, ${job})
+	</insert>
 </mapper>

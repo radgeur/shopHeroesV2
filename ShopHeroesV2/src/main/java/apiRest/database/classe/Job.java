@@ -9,6 +9,4 @@ public class Job {
 	
 	private int id;
 	private String name;
-	private int golds;
-	
 }
