@@ -12,10 +12,10 @@
 	
 	<select id="selectAllWorkers" parameterType="apiRest.database.classe.Worker" resultMap="workerResultMap">
 		SELECT *
-		FROM artisan
+		FROM worker
 	</select>
 	
 	<insert id="insertWorker" parameterType="apiRest.database.classe.Worker" keyProperty="id">
-		INSERT INTO artisan(name, golds, job) values (#{name}, #{golds}, #{job.id})
+		INSERT INTO worker(name, golds, job) values (#{name}, #{golds}, #{job.id})
 	</insert>
 </mapper>
