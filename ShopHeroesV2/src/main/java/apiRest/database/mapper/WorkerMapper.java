@@ -12,4 +12,8 @@ public interface WorkerMapper {
 	
 	public Worker selectWorkerById(long id);
 	
+	public Worker selectWorkerByIdWithoutJob(long id);
+	
+	
+	
 }

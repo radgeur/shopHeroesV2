@@ -18,34 +18,36 @@ import apiRest.database.mapper.WorkerMapper;
 @RequestMapping("/worker")
 public class WorkerController {
 
-	@RequestMapping(value="all", method = RequestMethod.GET)
+	///////////////////////////////////////////////////// INSERT//////////////////////////////////////////////////////////////
+	@RequestMapping(value = "insert", method = RequestMethod.POST)
+	public void insert(@RequestBody Worker worker) {
+		SqlSession session = MyBatisUtil.getSession();
+		try {
+			WorkerMapper mapper = session.getMapper(WorkerMapper.class);
+			mapper.insertWorker(worker);
+			session.commit();
+		} catch (Exception e) {
+			session.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+	}
+
+	///////////////////////////////////////////////////// GET//////////////////////////////////////////////////////////////
+	@RequestMapping(value = "all", method = RequestMethod.GET)
 	public List<Worker> getAll() {
 		SqlSession session = MyBatisUtil.getSession();
 		List<Worker> workers = null;
-		try{
+		try {
 			WorkerMapper mapper = session.getMapper(WorkerMapper.class);
 			workers = mapper.selectAllWorkers();
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			session.close();
 		}
 		return workers;
 	}
-	
-	@RequestMapping(value="insert", method = RequestMethod.POST)
-	public void insert(@RequestBody Worker worker) {
-		SqlSession session = MyBatisUtil.getSession();
-		try{
-			WorkerMapper mapper = session.getMapper(WorkerMapper.class);
-			mapper.insertWorker(worker);
-			session.commit();
-		}catch(Exception e){
-			session.rollback();
-			e.printStackTrace();
-		}finally{
-			session.close();
-		}
-	}
-	
+
 }

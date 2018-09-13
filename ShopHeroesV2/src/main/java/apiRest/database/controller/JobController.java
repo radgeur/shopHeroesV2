@@ -19,34 +19,36 @@ import apiRest.database.mapper.JobMapper;
 @RestController
 @RequestMapping("/job")
 public class JobController {
-	
-	@RequestMapping(method = RequestMethod.POST, value="add")
+
+	///////////////////////////////////////////////////// INSERT//////////////////////////////////////////////////////////////
+	@RequestMapping(method = RequestMethod.POST, value = "add")
 	public void addJob(@RequestParam String name) {
 		SqlSession session = MyBatisUtil.getSession();
-		try{
+		try {
 			JobMapper mapper = session.getMapper(JobMapper.class);
 			Map<String, String> map = new HashMap<>();
 			map.put("name", name);
 			mapper.insertJob(map);
 			session.commit();
-		}catch(Exception e){
+		} catch (Exception e) {
 			session.rollback();
 			e.printStackTrace();
-		}finally{
+		} finally {
 			session.close();
 		}
 	}
-	
-	@RequestMapping(method = RequestMethod.GET, value="selectAll")
+
+	///////////////////////////////////////////////////// GET//////////////////////////////////////////////////////////////
+	@RequestMapping(method = RequestMethod.GET, value = "selectAll")
 	public List<Job> selectAll() {
 		SqlSession session = MyBatisUtil.getSession();
 		List<Job> result = null;
-		try{
+		try {
 			JobMapper mapper = session.getMapper(JobMapper.class);
 			result = mapper.selectAllJobs();
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			session.close();
 		}
 		return result;

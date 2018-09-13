@@ -23,6 +23,12 @@
 		WHERE id=#{id}
 	</select>
 	
+	<select id="selectWorkerByIdWithoutJob" parameterType="apiRest.database.classe.Worker" resultMap="workerResultMap">
+		SELECT id, name, golds
+		FROM worker
+		WHERE id=#{id}
+	</select>
+	
 	<insert id="insertWorker" parameterType="apiRest.database.classe.Worker" keyProperty="id">
 		INSERT INTO worker(name, golds, job) values (#{name}, #{golds}, #{job.id})
 	</insert>

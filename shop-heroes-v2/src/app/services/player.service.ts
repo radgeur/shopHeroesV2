@@ -19,7 +19,7 @@ export class PlayerService {
   constructor(private http: HttpClient) { }
 
   getPlayer(name: String, password: String): Observable<Player> {
-    return this.http.get<Player>(`${root}?name=${name}&password=${password}`, httpOptions)
+    return this.http.get<Player>(`${root}/infos?name=${name}&password=${password}`, httpOptions)
       .pipe(
         catchError(this.handleError<Player>(`getPlayer`))
       );

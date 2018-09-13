@@ -20,5 +20,6 @@ public class Player {
 	private boolean admin;
 	private int golds;
 	private List<Worker> workers;
+	private List<Job> jobs;
 	
 }

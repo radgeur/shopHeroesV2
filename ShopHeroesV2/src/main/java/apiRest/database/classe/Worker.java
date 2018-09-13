@@ -1,7 +1,5 @@
 package apiRest.database.classe;
 
-import java.util.List;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +11,5 @@ public class Worker {
 	private String name;
 	private Job job;
 	private int golds;
-	private List<Player> players;
 	
 }

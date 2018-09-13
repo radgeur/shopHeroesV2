@@ -14,13 +14,15 @@
 		<result property="admin"			column="admin" />
 		<result property="golds"			column="golds" />
 		<collection property="workers" javaType="ArrayList" ofType="apiRest.database.classe.Worker"
-			select="apiRest.database.mapper.WorkerMapper.selectWorkerById" column="worker"/>
+			select="apiRest.database.mapper.WorkerMapper.selectWorkerByIdWithoutJob" column="worker"/>
+		<collection property="jobs" javaType="ArrayList" ofType="apiRest.database.classe.Job"
+			select="apiRest.database.mapper.JobMapper.selectJobById" column="job"/>
 	</resultMap>
 
 	<select id="selectPlayer" parameterType="map" resultMap="playerResultMap">
 		SELECT *
 		FROM player p
-		LEFT JOIN playerworker pw ON p.id = pw.player
+		LEFT JOIN playerworkerjob pwd ON p.id = pwd.player
 		WHERE p.name = #{name} AND p.password = #{password}
 	</select>
 	
@@ -33,6 +35,11 @@
 	<insert id="insertPlayer" parameterType="apiRest.database.classe.Player" keyProperty="id" useGeneratedKeys="true" keyColumn="id">
 		INSERT INTO player(name, password) 
 			values (#{name},#{password})
+	</insert>
+	
+	<insert id="insertPlayerWorkerJob" parameterType="map">
+		INSERT INTO playerworkerjob
+			values(#{player},#{worker},#{job})
 	</insert>
 	
 	<update id="updateStoneQuantity" parameterType="apiRest.database.classe.Player">
