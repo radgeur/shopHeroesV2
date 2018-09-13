@@ -7,12 +7,11 @@ import apiRest.database.classe.Worker;
 public interface WorkerMapper {
 
 	public List<Worker> selectAllWorkers();
+	public List<Worker> selectWorkersByIdWithoutJob(long id);
 	
 	public void insertWorker(Worker worker);
 	
-	public Worker selectWorkerById(long id);
 	
-	public Worker selectWorkerByIdWithoutJob(long id);
 	
 	
 	

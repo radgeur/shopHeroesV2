@@ -8,27 +8,28 @@
 		<result property="golds"		column="golds" />
 		<association property="job"		javaType="apiRest.database.classe.Job"
 			select="apiRest.database.mapper.JobMapper.selectJobById" column="job"/>
-		<collection property="players" javaType="ArrayList" ofType="apiRest.database.classe.Player"
-			select="apiRest.database.mapper.WorkerMapper.selectPlayerById" column="player"/>
 	</resultMap>
 	
-	<select id="selectAllWorkers" parameterType="apiRest.database.classe.Worker" resultMap="workerResultMap">
+	<!-- select -->
+	<select id="selectAllWorkers" resultMap="workerResultMap">
 		SELECT *
 		FROM worker
 	</select>
 	
-	<select id="selectWorkerById" parameterType="apiRest.database.classe.Worker" resultMap="workerResultMap">
+	<select id="selectWorkerById" parameterType="long" resultMap="workerResultMap">
 		SELECT *
 		FROM worker
 		WHERE id=#{id}
 	</select>
 	
-	<select id="selectWorkerByIdWithoutJob" parameterType="apiRest.database.classe.Worker" resultMap="workerResultMap">
+	<select id="selectWorkersByIdWithoutJob" parameterType="long" resultMap="workerResultMap">
 		SELECT id, name, golds
-		FROM worker
-		WHERE id=#{id}
+		FROM worker w
+		LEFT JOIN playerworkerjob pwj ON w.id = pwj.worker
+		WHERE pwj.player=#{id}
 	</select>
 	
+	<!-- insert -->
 	<insert id="insertWorker" parameterType="apiRest.database.classe.Worker" keyProperty="id">
 		INSERT INTO worker(name, golds, job) values (#{name}, #{golds}, #{job.id})
 	</insert>

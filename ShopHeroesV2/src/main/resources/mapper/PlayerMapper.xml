@@ -7,31 +7,30 @@
 		<result property="name" 			column="name" />
 		<result property="password"			column="password" />
 		<result property="level" 			column="level" />
-		<result property="stoneQuantity" 	column="stoneQuantity" />
-		<result property="leatherQuantity" 	column="leatherQuantity" />
-		<result property="herbQuantity" 	column="herbQuantity" />
-		<result property="woodQuantity" 	column="woodQuantity" />
+		<result property="stoneQuantity" 	column="stonequantity" />
+		<result property="leatherQuantity" 	column="leatherquantity" />
+		<result property="herbQuantity" 	column="herbquantity" />
+		<result property="woodQuantity" 	column="woodquantity" />
 		<result property="admin"			column="admin" />
 		<result property="golds"			column="golds" />
 		<collection property="workers" javaType="ArrayList" ofType="apiRest.database.classe.Worker"
-			select="apiRest.database.mapper.WorkerMapper.selectWorkerByIdWithoutJob" column="worker"/>
-		<collection property="jobs" javaType="ArrayList" ofType="apiRest.database.classe.Job"
-			select="apiRest.database.mapper.JobMapper.selectJobById" column="job"/>
+			select="apiRest.database.mapper.WorkerMapper.selectWorkersByIdWithoutJob" column="id"/>
 	</resultMap>
 
+	<!-- select -->
 	<select id="selectPlayer" parameterType="map" resultMap="playerResultMap">
 		SELECT *
 		FROM player p
-		LEFT JOIN playerworkerjob pwd ON p.id = pwd.player
 		WHERE p.name = #{name} AND p.password = #{password}
 	</select>
 	
-	<select id="selectPlayerById" parameterType="apiRest.database.classe.Player" resultMap="playerResultMap">
+	<select id="selectPlayerById" parameterType="long" resultMap="playerResultMap">
 		SELECT *
 		FROM player p
-		WHERE p.id = #{id}
+		WHERE id = #{id}
 	</select>
 	
+	<!-- insert -->
 	<insert id="insertPlayer" parameterType="apiRest.database.classe.Player" keyProperty="id" useGeneratedKeys="true" keyColumn="id">
 		INSERT INTO player(name, password) 
 			values (#{name},#{password})
@@ -42,6 +41,7 @@
 			values(#{player},#{worker},#{job})
 	</insert>
 	
+	<!-- udpate -->
 	<update id="updateStoneQuantity" parameterType="apiRest.database.classe.Player">
 		UPDATE player SET
 			"stoneQuantity" = #{stoneQuantity}

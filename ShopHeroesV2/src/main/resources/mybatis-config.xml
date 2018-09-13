@@ -19,5 +19,6 @@
 		<mapper resource="mapper/PlayerMapper.xml" />
 		<mapper resource="mapper/JobMapper.xml" />
 		<mapper resource="mapper/WorkerMapper.xml" />
+		<mapper resource="mapper/PlayerWorkerJobMapper.xml" />
 	</mappers>
 </configuration>

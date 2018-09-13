@@ -5,10 +5,9 @@
 	<resultMap type="apiRest.database.classe.Job" id="jobResultMap">
 		<id 	property="id"			column="id" />
 		<result property="name"			column="name" />
-		<collection property="players" javaType="ArrayList" ofType="apiRest.database.classe.Player"
-			select="apiRest.database.mapper.JobMapper.selectPlayerById" column="player"/>
  	</resultMap>
 	
+	<!-- insert -->
 	<insert id="insertJob" parameterType="apiRest.database.classe.Job" keyProperty="id">
 		INSERT INTO job(name) values (#{name})
 	</insert>
@@ -19,6 +18,7 @@
 		WHERE id=#{id}
 	</select>
 	
+	<!-- select -->
 	<select id="selectAllJobs" parameterType="apiRest.database.classe.Job" resultMap="jobResultMap">
 		SELECT *
 		FROM job
