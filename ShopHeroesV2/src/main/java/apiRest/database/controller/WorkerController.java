@@ -26,6 +26,7 @@ public class WorkerController {
 			WorkerMapper mapper = session.getMapper(WorkerMapper.class);
 			workers = mapper.selectAllWorkers();
 		}catch(Exception e){
+			e.printStackTrace();
 		}finally{
 			session.close();
 		}
@@ -41,6 +42,7 @@ public class WorkerController {
 			session.commit();
 		}catch(Exception e){
 			session.rollback();
+			e.printStackTrace();
 		}finally{
 			session.close();
 		}

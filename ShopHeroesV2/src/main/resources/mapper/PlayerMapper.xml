@@ -13,11 +13,14 @@
 		<result property="woodQuantity" 	column="woodQuantity" />
 		<result property="admin"			column="admin" />
 		<result property="golds"			column="golds" />
+		<collection property="workers" javaType="ArrayList" ofType="apiRest.database.classe.Worker"
+			select="apiRest.database.mapper.WorkerMapper.selectWorkerById" column="worker"/>
 	</resultMap>
 
 	<select id="selectPlayer" parameterType="map" resultMap="playerResultMap">
 		SELECT *
 		FROM player p
+		LEFT JOIN playerworker pw ON p.id = pw.player
 		WHERE p.name = #{name} AND p.password = #{password}
 	</select>
 	

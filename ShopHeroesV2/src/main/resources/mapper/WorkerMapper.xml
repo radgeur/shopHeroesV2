@@ -8,11 +8,19 @@
 		<result property="golds"		column="golds" />
 		<association property="job"		javaType="apiRest.database.classe.Job"
 			select="apiRest.database.mapper.JobMapper.selectJobById" column="job"/>
+		<collection property="players" javaType="ArrayList" ofType="apiRest.database.classe.Player"
+			select="apiRest.database.mapper.WorkerMapper.selectPlayerById" column="player"/>
 	</resultMap>
 	
 	<select id="selectAllWorkers" parameterType="apiRest.database.classe.Worker" resultMap="workerResultMap">
 		SELECT *
 		FROM worker
+	</select>
+	
+	<select id="selectWorkerById" parameterType="apiRest.database.classe.Worker" resultMap="workerResultMap">
+		SELECT *
+		FROM worker
+		WHERE id=#{id}
 	</select>
 	
 	<insert id="insertWorker" parameterType="apiRest.database.classe.Worker" keyProperty="id">

@@ -21,17 +21,18 @@ import apiRest.database.mapper.PlayerMapper;
 @RequestMapping("/player")
 public class PlayerController {
 
-	@RequestMapping(method = RequestMethod.GET)
-	public Player getPlayer(@RequestParam(value="name") String name, @RequestParam(value="password") String password) {
+	@RequestMapping(value="/infos", method = RequestMethod.GET)
+	public Player getPlayerWithWorkersAndJobs(@RequestParam String name, @RequestParam String password) {
 		SqlSession session = MyBatisUtil.getSession();
 		Map<String, String> map = new HashMap<>();
 		map.put("name", name);
 		map.put("password", password);
 		Player result = null;
 		try {
-			final PlayerMapper mapper = session.getMapper(PlayerMapper.class);
-			result = mapper.selectPlayer(map);
+			final PlayerMapper playerMapper = session.getMapper(PlayerMapper.class);
+			result = playerMapper.selectPlayer(map);
 		} catch (Exception e) {
+			e.printStackTrace();
 		} finally {
 			session.close();
 		}
@@ -46,9 +47,10 @@ public class PlayerController {
 			final PlayerMapper mapper = session.getMapper(PlayerMapper.class);
 			mapper.insertPlayer(player);
 			session.commit();
-			result = getPlayer(player.getName(), player.getPassword());
+			result = getPlayerWithWorkersAndJobs(player.getName(), player.getPassword());
 		}catch(Exception e){
 			session.rollback();
+			e.printStackTrace();
 		}finally{
 			session.close();
 		}
@@ -56,7 +58,7 @@ public class PlayerController {
 	}
 	
 	@RequestMapping(value = "/updateStoneQuantity", method = RequestMethod.POST)
-	public Player updateStone(@RequestBody Player player, @RequestParam(value="quantity") int quantity) {
+	public Player updateStone(@RequestBody Player player, @RequestParam int quantity) {
 		SqlSession session = MyBatisUtil.getSession();
 		Player result = null;
 		try{
@@ -67,6 +69,7 @@ public class PlayerController {
 			session.commit();
 		}catch(Exception e){
 			session.rollback();
+			e.printStackTrace();
 		}finally{
 			session.close();
 		}
@@ -74,7 +77,7 @@ public class PlayerController {
 	}
 	
 	@RequestMapping(value = "/updateWoodQuantity", method = RequestMethod.POST)
-	public Player updateWood(@RequestBody Player player, @RequestParam(value="quantity") int quantity) {
+	public Player updateWood(@RequestBody Player player, @RequestParam int quantity) {
 		SqlSession session = MyBatisUtil.getSession();
 		Player result = null;
 		try{
@@ -85,6 +88,7 @@ public class PlayerController {
 			session.commit();
 		}catch(Exception e){
 			session.rollback();
+			e.printStackTrace();
 		}finally{
 			session.close();
 		}
@@ -92,7 +96,7 @@ public class PlayerController {
 	}
 	
 	@RequestMapping(value = "/updateLeatherQuantity", method = RequestMethod.POST)
-	public Player updateLeather(@RequestBody Player player, @RequestParam(value="quantity") int quantity) {
+	public Player updateLeather(@RequestBody Player player, @RequestParam int quantity) {
 		SqlSession session = MyBatisUtil.getSession();
 		Player result = null;
 		try{
@@ -103,6 +107,7 @@ public class PlayerController {
 			session.commit();
 		}catch(Exception e){
 			session.rollback();
+			e.printStackTrace();
 		}finally{
 			session.close();
 		}
@@ -110,7 +115,7 @@ public class PlayerController {
 	}
 	
 	@RequestMapping(value = "/updateHerbQuantity", method = RequestMethod.POST)
-	public Player udpateHerb(@RequestBody Player player, @RequestParam(value="quantity") int quantity) {
+	public Player udpateHerb(@RequestBody Player player, @RequestParam int quantity) {
 		SqlSession session = MyBatisUtil.getSession();
 		Player result = null;
 		try{
@@ -121,6 +126,7 @@ public class PlayerController {
 			session.commit();
 		}catch(Exception e){
 			session.rollback();
+			e.printStackTrace();
 		}finally{
 			session.close();
 		}
@@ -129,8 +135,8 @@ public class PlayerController {
 	
 	@RequestMapping(value="/updateQuantities", method = RequestMethod.POST)
 	public Player updateQuantities(@RequestBody Player player,
-			@RequestParam(value="stoneQuantity") int stoneQuantity, @RequestParam(value="woodQuantity") int woodQuantity,
-			@RequestParam(value="leatherQuantity") int leatherQuantity, @RequestParam(value="herbQuantity") int herbQuantity) {
+			@RequestParam int stoneQuantity, @RequestParam int woodQuantity,
+			@RequestParam int leatherQuantity, @RequestParam int herbQuantity) {
 		SqlSession session = MyBatisUtil.getSession();
 		Player result = null;
 		try{
@@ -144,7 +150,7 @@ public class PlayerController {
 			session.commit();
 		}catch(Exception e){
 			session.rollback();
-		}finally{
+			e.printStackTrace();
 			session.close();
 		}
 		return result;

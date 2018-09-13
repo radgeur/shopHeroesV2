@@ -10,4 +10,6 @@ public interface WorkerMapper {
 	
 	public void insertWorker(Worker worker);
 	
+	public Worker selectWorkerById(long id);
+	
 }

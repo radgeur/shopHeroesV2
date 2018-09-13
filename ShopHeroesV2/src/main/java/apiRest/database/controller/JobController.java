@@ -21,7 +21,7 @@ import apiRest.database.mapper.JobMapper;
 public class JobController {
 	
 	@RequestMapping(method = RequestMethod.POST, value="add")
-	public void addJob(@RequestParam(value="name") String name) {
+	public void addJob(@RequestParam String name) {
 		SqlSession session = MyBatisUtil.getSession();
 		try{
 			JobMapper mapper = session.getMapper(JobMapper.class);
@@ -31,6 +31,7 @@ public class JobController {
 			session.commit();
 		}catch(Exception e){
 			session.rollback();
+			e.printStackTrace();
 		}finally{
 			session.close();
 		}
@@ -44,6 +45,7 @@ public class JobController {
 			JobMapper mapper = session.getMapper(JobMapper.class);
 			result = mapper.selectAllJobs();
 		}catch(Exception e){
+			e.printStackTrace();
 		}finally{
 			session.close();
 		}
