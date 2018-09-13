@@ -7,7 +7,7 @@ import apiRest.database.classe.Worker;
 public interface WorkerMapper {
 
 	public List<Worker> selectAllWorkers();
-	public List<Worker> selectWorkersByIdWithoutJob(long id);
+	public List<Worker> selectWorkersOfPlayerId(long id);
 	
 	public void insertWorker(Worker worker);
 	

@@ -7,10 +7,10 @@ import apiRest.database.classe.Job;
 
 public interface JobMapper {
 
-	public Job selectJobById(long id);
+	public List<Job> selectAllJobs();
+	public List<Job> selectJobOfPlayerId(long id);
 	
 	public void insertJob(Map<String, String> map);
 	
-	public List<Job> selectAllJobs();
 	
 }

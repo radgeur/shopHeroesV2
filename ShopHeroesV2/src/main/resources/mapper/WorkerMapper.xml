@@ -22,7 +22,7 @@
 		WHERE id=#{id}
 	</select>
 	
-	<select id="selectWorkersByIdWithoutJob" parameterType="long" resultMap="workerResultMap">
+	<select id="selectWorkersOfPlayerId" parameterType="long" resultMap="workerResultMap">
 		SELECT id, name, golds
 		FROM worker w
 		LEFT JOIN playerworkerjob pwj ON w.id = pwj.worker

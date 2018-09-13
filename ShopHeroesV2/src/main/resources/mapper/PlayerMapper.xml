@@ -14,7 +14,9 @@
 		<result property="admin"			column="admin" />
 		<result property="golds"			column="golds" />
 		<collection property="workers" javaType="ArrayList" ofType="apiRest.database.classe.Worker"
-			select="apiRest.database.mapper.WorkerMapper.selectWorkersByIdWithoutJob" column="id"/>
+			select="apiRest.database.mapper.WorkerMapper.selectWorkersOfPlayerId" column="id"/>
+		<collection property="jobs" javaType="ArrayList" ofType="apiRest.database.classe.Job"
+			select="apiRest.database.mapper.JobMapper.selectJobOfPlayerId" column="id"/>
 	</resultMap>
 
 	<!-- select -->

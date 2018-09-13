@@ -12,10 +12,11 @@
 		INSERT INTO job(name) values (#{name})
 	</insert>
 	
-	<select id="selectJobById" parameterType="apiRest.database.classe.Job" resultMap="jobResultMap">
+	<select id="selectJobOfPlayerId" parameterType="long" resultMap="jobResultMap">
 		SELECT *
-		FROM job
-		WHERE id=#{id}
+		FROM job j
+		LEFT JOIN playerworkerjob pwj ON j.id=pwj.job
+		WHERE pwj.player=#{id}
 	</select>
 	
 	<!-- select -->
