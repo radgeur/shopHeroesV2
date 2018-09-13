@@ -41,7 +41,7 @@ public class WorkerController {
 		List<Worker> workers = null;
 		try {
 			WorkerMapper mapper = session.getMapper(WorkerMapper.class);
-			workers = mapper.selectAllWorkers();
+			workers = mapper.selectAllWorkersOrderByGolds();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

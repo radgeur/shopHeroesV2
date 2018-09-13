@@ -12,6 +12,12 @@
 		INSERT INTO job(name) values (#{name})
 	</insert>
 	
+	<select id="selectJobById" parameterType="long" resultMap="jobResultMap">
+		SELECT *
+		FROM job 
+		WHERE id=#{id}
+	</select>
+	
 	<select id="selectJobOfPlayerId" parameterType="long" resultMap="jobResultMap">
 		SELECT *
 		FROM job j

@@ -9,6 +9,7 @@ public interface JobMapper {
 
 	public List<Job> selectAllJobs();
 	public List<Job> selectJobOfPlayerId(long id);
+	public Job selectJobById(long id);
 	
 	public void insertJob(Map<String, String> map);
 	

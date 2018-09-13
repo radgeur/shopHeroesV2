@@ -11,9 +11,10 @@
 	</resultMap>
 	
 	<!-- select -->
-	<select id="selectAllWorkers" resultMap="workerResultMap">
+	<select id="selectAllWorkersOrderByGolds" resultMap="workerResultMap">
 		SELECT *
 		FROM worker
+		ORDER BY golds ASC
 	</select>
 	
 	<select id="selectWorkerById" parameterType="long" resultMap="workerResultMap">
