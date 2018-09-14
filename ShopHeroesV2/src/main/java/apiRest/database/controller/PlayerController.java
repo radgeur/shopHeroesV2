@@ -1,6 +1,7 @@
 package apiRest.database.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -15,22 +16,28 @@ import apiRest.MyBatisUtil;
 import apiRest.database.classe.Player;
 import apiRest.database.classe.Worker;
 import apiRest.database.mapper.PlayerMapper;
+import apiRest.database.mapper.WorkerMapper;
 
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/player")
 public class PlayerController {
 
-	///////////////////////////////////////////////////// INSERT//////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////INSERT//////////////////////////////////////////////////////////////
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	public Player signUp(@RequestBody Player player) {
 		SqlSession session = MyBatisUtil.getSession();
 		Player result = null;
 		try {
-			final PlayerMapper mapper = session.getMapper(PlayerMapper.class);
-			mapper.insertPlayer(player);
+			final PlayerMapper playerMapper = session.getMapper(PlayerMapper.class);
+			playerMapper.insertPlayer(player);
+			final WorkerMapper workerMapper = session.getMapper(WorkerMapper.class);
+			List<Worker> freeWorkers = workerMapper.selectFreeWorkers();
+			for(Worker worker : freeWorkers) {
+				addWorkerToPlayer(player.getId(), worker, playerMapper);
+			}
 			session.commit();
-			result = getPlayerWithWorkersAndJobs(player.getName(), player.getPassword());
+			result = getFullPlayer(player.getName(), player.getPassword(), playerMapper);
 		} catch (Exception e) {
 			session.rollback();
 			e.printStackTrace();
@@ -40,16 +47,12 @@ public class PlayerController {
 		return result;
 	}
 
-	@RequestMapping(value = "addWorkerToPlayer", method = RequestMethod.POST)
+	@RequestMapping(value = "/addWorkerToPlayer", method = RequestMethod.POST)
 	public void insertPlayerWorkerJob(@RequestBody Worker worker, @RequestParam int idPlayer) {
 		SqlSession session = MyBatisUtil.getSession();
-		Map<String, Integer> map = new HashMap<>();
-		map.put("player", idPlayer);
-		map.put("worker", worker.getId());
-		map.put("job", worker.getJob().getId());
 		try {
 			PlayerMapper playerMapper = session.getMapper(PlayerMapper.class);
-			playerMapper.insertPlayerWorkerJob(map);
+			addWorkerToPlayer(idPlayer, worker, playerMapper);
 			Player player = playerMapper.selectPlayerById(idPlayer);
 			player.setGolds(player.getGolds() - worker.getGolds());
 			playerMapper.updateGolds(player);
@@ -61,18 +64,15 @@ public class PlayerController {
 			session.close();
 		}
 	}
-
-	///////////////////////////////////////////////////// GET//////////////////////////////////////////////////////////////
+	
+	/////////////////////////////////////////////////////GET//////////////////////////////////////////////////////////////
 	@RequestMapping(value = "/infos", method = RequestMethod.GET)
 	public Player getPlayerWithWorkersAndJobs(@RequestParam String name, @RequestParam String password) {
 		SqlSession session = MyBatisUtil.getSession();
-		Map<String, String> map = new HashMap<>();
-		map.put("name", name);
-		map.put("password", password);
 		Player result = null;
 		try {
 			final PlayerMapper playerMapper = session.getMapper(PlayerMapper.class);
-			result = playerMapper.selectPlayer(map);
+			result = getFullPlayer(name, password, playerMapper);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -194,5 +194,23 @@ public class PlayerController {
 			session.close();
 		}
 		return result;
+	}
+	
+	
+	////////////////////////////////////////////////////////OTHER//////////////////////////////////////////////////////////
+	private Player getFullPlayer(String name, String password, PlayerMapper mapper) {
+		Map<String, String> map = new HashMap<>();
+		map.put("name", name);
+		map.put("password", password);
+		return mapper.selectPlayer(map);
+	}
+	
+
+	private void addWorkerToPlayer(long id, Worker worker, PlayerMapper mapper) {
+		Map<String, Integer> map = new HashMap<>();
+		map.put("player", (Integer) (int) id);
+		map.put("worker", worker.getId());
+		map.put("job", worker.getJob().getId());
+		mapper.insertPlayerWorkerJob(map);
 	}
 }

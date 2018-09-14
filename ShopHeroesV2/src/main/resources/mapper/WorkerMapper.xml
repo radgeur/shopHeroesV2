@@ -30,6 +30,12 @@
 		WHERE pwj.player=#{id}
 	</select>
 	
+	<select id="selectFreeWorkers" parameterType="long" resultMap="workerResultMap">
+		SELECT *
+		FROM worker
+		WHERE golds = 0;
+	</select>
+	
 	<!-- insert -->
 	<insert id="insertWorker" parameterType="apiRest.database.classe.Worker" keyProperty="id">
 		INSERT INTO worker(name, golds, job) values (#{name}, #{golds}, #{job.id})
