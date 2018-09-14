@@ -6,6 +6,7 @@ import {Player} from '../../objects/player';
 import {JobService} from '../../services/job.service';
 import {WorkerService} from '../../services/worker.service';
 import {PlayerService} from '../../services/player.service';
+import {SharedService} from '../../services/shared.service';
 import {Job} from '../../objects/job';
 import {Worker} from '../../objects/worker';
 
@@ -25,7 +26,8 @@ export class ArtisantsComponent implements OnInit{
   constructor(private dashboard: DashboardComponent,
     private jobService: JobService,
     private workerService: WorkerService,
-    private playerService: PlayerService
+    private playerService: PlayerService,
+    private sharedService: SharedService
   ) {
     this.ownedWorkers = [];
     this.notOwnedWorkers = [];
@@ -67,6 +69,7 @@ export class ArtisantsComponent implements OnInit{
           this.player = player;
           sessionStorage.setItem("player", JSON.stringify(player));
           this.sortWorkers(this.workers);
+          this.sharedService.updatePlayerData()
         });
       }
     );

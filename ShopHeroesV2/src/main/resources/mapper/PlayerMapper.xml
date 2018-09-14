@@ -70,8 +70,15 @@
 	
 	<update id="updateQuantities" parameterType="apiRest.database.classe.Player">
 		UPDATE player SET
-			"stonequantity" = #{stonequantity}, "woodquantity" = #{woodquantity}, "leatherquantity" = #{leatherquantity}, "herbquantity" = #{herbquantity}
+			"stonequantity" = #{stoneQuantity}, "woodquantity" = #{woodQuantity},
+			 "leatherquantity" = #{leatherQuantity}, "herbquantity" = #{herbQuantity}
 		WHERE id = #{id}
+	</update>
+	
+	<update id="updateGolds" parameterType="apiRest.database.classe.Player">
+		UPDATE player
+		SET golds = #{golds}
+		WHERE id=#{id}
 	</update>
 	
 </mapper>

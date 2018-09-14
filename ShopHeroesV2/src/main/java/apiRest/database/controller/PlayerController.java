@@ -48,8 +48,11 @@ public class PlayerController {
 		map.put("worker", worker.getId());
 		map.put("job", worker.getJob().getId());
 		try {
-			PlayerMapper mapper = session.getMapper(PlayerMapper.class);
-			mapper.insertPlayerWorkerJob(map);
+			PlayerMapper playerMapper = session.getMapper(PlayerMapper.class);
+			playerMapper.insertPlayerWorkerJob(map);
+			Player player = playerMapper.selectPlayerById(idPlayer);
+			player.setGolds(player.getGolds() - worker.getGolds());
+			playerMapper.updateGolds(player);
 			session.commit();
 		} catch (Exception e) {
 			session.rollback();
@@ -187,6 +190,7 @@ public class PlayerController {
 		} catch (Exception e) {
 			session.rollback();
 			e.printStackTrace();
+		} finally {
 			session.close();
 		}
 		return result;

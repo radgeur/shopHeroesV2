@@ -14,7 +14,7 @@ export class SharedService {
     changeEmitted$ = this.emitChangeSource.asObservable();
     
     // Service message commands
-    changeQuantity() {
+    updatePlayerData() {
         this.emitChangeSource.next();
     }
 }

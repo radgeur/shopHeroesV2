@@ -17,5 +17,6 @@ public interface PlayerMapper {
 	public void updateLeatherQuantity(Player player);
 	public void updateHerbQuantity(Player player);
 	public void updateQuantities(Player player);
+	public void updateGolds(Player player);
 	
 }

@@ -36,6 +36,11 @@
 </div>
 
 <div id="workers">
+  <h3>Workers owned</h3>
+  <ul *ngFor="let worker of ownedWorkers">
+      {{worker.name}} {{worker.job.name}}
+  </ul>
+  <h3>Workers to buy</h3>
   <ul *ngFor="let worker of notOwnedWorkers">
     {{worker.name}} {{worker.job.name}} {{worker.golds}} golds
     <button (click)="buyWorker(worker)" [disabled]="!enoughGold(worker)">

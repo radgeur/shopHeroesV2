@@ -27,7 +27,7 @@ export class ResourcesComponent implements OnInit {
     this.playerService.updateStoneQuantity(JSON.parse(sessionStorage.getItem("player")), quantity)
       .subscribe(player => {
         sessionStorage.setItem("player", JSON.stringify(player));
-        this.sharedService.changeQuantity();
+        this.sharedService.updatePlayerData();
       });
   }
 
@@ -35,7 +35,7 @@ export class ResourcesComponent implements OnInit {
     this.playerService.updateWoodQuantity(JSON.parse(sessionStorage.getItem("player")), quantity)
       .subscribe(player => {
         sessionStorage.setItem("player", JSON.stringify(player));
-        this.sharedService.changeQuantity();
+        this.sharedService.updatePlayerData();
       });
   }
 
@@ -43,7 +43,7 @@ export class ResourcesComponent implements OnInit {
     this.playerService.updateLeatherQuantity(JSON.parse(sessionStorage.getItem("player")), quantity)
       .subscribe(player => {
         sessionStorage.setItem("player", JSON.stringify(player));
-        this.sharedService.changeQuantity();
+        this.sharedService.updatePlayerData();
       });
   }
 
@@ -51,7 +51,7 @@ export class ResourcesComponent implements OnInit {
     this.playerService.updateHerbQuantity(JSON.parse(sessionStorage.getItem("player")), quantity)
       .subscribe(player => {
         sessionStorage.setItem("player", JSON.stringify(player));
-        this.sharedService.changeQuantity();
+        this.sharedService.updatePlayerData();
       });
   }
 
@@ -59,7 +59,7 @@ export class ResourcesComponent implements OnInit {
     this.playerService.updateQuantities(JSON.parse(sessionStorage.getItem("player")), stone*1, wood*1, leather*1, herb*1)
       .subscribe(player => {
         sessionStorage.setItem("player", JSON.stringify(player));
-        this.sharedService.changeQuantity();
+        this.sharedService.updatePlayerData();
     });
   }
 
