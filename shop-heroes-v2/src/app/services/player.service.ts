@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Player } from '../objects/player';
+import { Worker } from '../objects/worker';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -29,6 +30,20 @@ export class PlayerService {
     return this.http.post<Player>(`${root}/signup`, player, httpOptions)
       .pipe(
         catchError(this.handleError<Player>('signUpPlayer'))
+      );
+  }
+
+  getPlayerById(id: number): Observable<Player> {
+    return this.http.get<Player>(`${root}?id=${id}`, httpOptions)
+      .pipe(
+        catchError(this.handleError<Player>(`getPlayerById`))
+      );
+  }
+
+  addWorkerToCurrentPlayer(idPlayer: number, worker: Worker): Observable<any>{
+    return this.http.post<Worker>(`${root}/addWorkerToPlayer?idPlayer=${idPlayer}`, worker, httpOptions)
+      .pipe(
+        catchError(this.handleError<any>('addWorkerToCurrentPlayer'))
       );
   }
 

@@ -1,3 +1,6 @@
+import {Worker} from './worker';
+import {Job} from './job';
+
 export class Player{
 
     constructor(name: string, password: string){
@@ -14,5 +17,7 @@ export class Player{
     woodquantity:number;
     herbquantity:number;
     admin:boolean;
-    gold:number;
+    golds:number;
+    workers:Worker[];
+    jobs:Job[];
 }

@@ -5,6 +5,7 @@ import {DashboardComponent} from '../dashboard/dashboard.component';
 import {Player} from '../../objects/player';
 import {JobService} from '../../services/job.service';
 import {WorkerService} from '../../services/worker.service';
+import {PlayerService} from '../../services/player.service';
 import {Job} from '../../objects/job';
 import {Worker} from '../../objects/worker';
 
@@ -15,14 +16,22 @@ import {Worker} from '../../objects/worker';
 })
 export class ArtisantsComponent implements OnInit{
 
-  constructor(private dashboard: DashboardComponent,
-    private jobService: JobService,
-    private workerService: WorkerService
-  ) { }
-
   player: Player;
   jobs: Job[];
   workers: Worker[];
+  ownedWorkers:Worker[];
+  notOwnedWorkers: Worker[];
+
+  constructor(private dashboard: DashboardComponent,
+    private jobService: JobService,
+    private workerService: WorkerService,
+    private playerService: PlayerService
+  ) {
+    this.ownedWorkers = [];
+    this.notOwnedWorkers = [];
+    this.workers = [];
+    this.jobs = [];
+   }
 
   ngOnInit(){
     this.player = this.dashboard.player;
@@ -48,7 +57,42 @@ export class ArtisantsComponent implements OnInit{
   }
 
   getAllWorker() {
-    this.workerService.getAll().subscribe(workers => this.workers = workers);
+    this.workerService.getAll().subscribe(workers => this.sortWorkers(workers));
+  }
+
+  buyWorker(worker: Worker) {
+    this.playerService.addWorkerToCurrentPlayer(this.player.id, worker).subscribe(
+      _ => {
+        this.playerService.getPlayerById(this.player.id).subscribe(player => {
+          this.player = player;
+          sessionStorage.setItem("player", JSON.stringify(player));
+          this.sortWorkers(this.workers);
+        });
+      }
+    );
+  }
+
+  enoughGold(worker: Worker): boolean {
+    return this.player.golds >= worker.golds;
+  }
+
+  //sort owned and unOwned workers
+  sortWorkers(workers: Worker[]) {
+    this.ownedWorkers = [];
+    this.notOwnedWorkers = [];
+    var self = this;
+    workers.forEach(worker => {
+      var bought = false;
+      self.player.workers.forEach(playerWorker => {
+        if(worker.id === playerWorker.id) {
+          bought = true;
+          self.ownedWorkers.push(worker);
+        }
+      });
+      if(!bought)
+        self.notOwnedWorkers.push(worker);
+      self.workers.push(worker);
+    })
   }
 
 }

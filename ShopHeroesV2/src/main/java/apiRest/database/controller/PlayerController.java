@@ -77,6 +77,21 @@ public class PlayerController {
 		}
 		return result;
 	}
+	
+	@RequestMapping(method = RequestMethod.GET)
+	public Player getPlayer(@RequestParam int id) {
+		SqlSession session = MyBatisUtil.getSession();
+		Player result = null;
+		try {
+			final PlayerMapper playerMapper = session.getMapper(PlayerMapper.class);
+			result = playerMapper.selectPlayerById(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return result;
+	}
 
 	///////////////////////////////////////////////////// UPDATE//////////////////////////////////////////////////////////////
 	@RequestMapping(value = "/updateStoneQuantity", method = RequestMethod.POST)

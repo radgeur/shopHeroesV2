@@ -12,6 +12,7 @@
 		INSERT INTO job(name) values (#{name})
 	</insert>
 	
+	<!-- select -->
 	<select id="selectJobById" parameterType="long" resultMap="jobResultMap">
 		SELECT *
 		FROM job 
@@ -25,7 +26,6 @@
 		WHERE pwj.player=#{id}
 	</select>
 	
-	<!-- select -->
 	<select id="selectAllJobs" parameterType="apiRest.database.classe.Job" resultMap="jobResultMap">
 		SELECT *
 		FROM job
