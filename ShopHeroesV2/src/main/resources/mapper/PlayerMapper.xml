@@ -13,6 +13,7 @@
 		<result property="woodQuantity" 	column="woodquantity" />
 		<result property="admin"			column="admin" />
 		<result property="golds"			column="golds" />
+		<result property="xp"				column="xp" />
 		<collection property="workers" javaType="ArrayList" ofType="apiRest.database.classe.Worker"
 			select="apiRest.database.mapper.WorkerMapper.selectWorkersOfPlayerId" column="id"/>
 		<collection property="jobs" javaType="ArrayList" ofType="apiRest.database.classe.Job"

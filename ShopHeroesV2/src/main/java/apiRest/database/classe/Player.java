@@ -19,6 +19,7 @@ public class Player {
 	private int woodQuantity;
 	private boolean admin;
 	private int golds;
+	private int xp;
 	private List<Worker> workers;
 	private List<Job> jobs;
 	

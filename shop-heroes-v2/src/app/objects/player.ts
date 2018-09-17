@@ -18,6 +18,7 @@ export class Player{
     herbquantity:number;
     admin:boolean;
     golds:number;
+    xp:number;
     workers:Worker[];
     jobs:Job[];
 }
