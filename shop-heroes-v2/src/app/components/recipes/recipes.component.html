@@ -12,20 +12,32 @@
 
 
 <div *ngIf="player.admin">
-  <h3> Add a new Worker</h3>
-  <form (ngSubmit)="addWorker(f)" #f="ngForm">
+  <h3> Add a new Recipe</h3>
+  <form (ngSubmit)="addRecipe(f)" #f="ngForm">
     <label>Name :
       <input name="name" ngModel/>
     </label>
     <br />
     <label>Golds :
-      <input type="number" name="golds" ngModel=name/>
+      <input type="number" name="golds" ngModel="0"/>
     </label>
     <br />
-    <label> Job :
-      <select name="job" ngModel>
-        <option *ngFor="let job of jobs" [ngValue]="job">
-          {{job.name}}
+    <label>Xp :
+      <input type="number" name="xp" ngModel="0"/>
+    </label>
+    <br />
+    <label>Level minimum :
+      <input type="number" name="minLevel" ngModel="1"/>
+    </label>
+    <br />
+    <label *ngFor="let material of materials">{{material.name}} :
+      <input type="number" name="{{material.name}}" ngModel="0"/>
+      <br />
+    </label>
+    <label> Category :
+      <select name="category" ngModel>
+        <option *ngFor="let category of categories" [ngValue]="category">
+          {{category.name}}
         </option>
       </select>
     </label>

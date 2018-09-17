@@ -1,8 +1,6 @@
 package apiRest.database.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -26,9 +24,7 @@ public class JobController {
 		SqlSession session = MyBatisUtil.getSession();
 		try {
 			JobMapper mapper = session.getMapper(JobMapper.class);
-			Map<String, String> map = new HashMap<>();
-			map.put("name", name);
-			mapper.insertJob(map);
+			mapper.insertJob(name);
 			session.commit();
 		} catch (Exception e) {
 			session.rollback();

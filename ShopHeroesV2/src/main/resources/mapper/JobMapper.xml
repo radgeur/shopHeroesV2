@@ -8,7 +8,7 @@
  	</resultMap>
 	
 	<!-- insert -->
-	<insert id="insertJob" parameterType="apiRest.database.classe.Job" keyProperty="id">
+	<insert id="insertJob" parameterType="String" keyProperty="id">
 		INSERT INTO job(name) values (#{name})
 	</insert>
 	

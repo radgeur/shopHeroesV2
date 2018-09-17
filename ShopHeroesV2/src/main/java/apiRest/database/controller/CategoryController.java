@@ -4,27 +4,27 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import apiRest.MyBatisUtil;
-import apiRest.database.classe.Worker;
-import apiRest.database.mapper.WorkerMapper;
+import apiRest.database.classe.Category;
+import apiRest.database.mapper.CategoryMapper;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/worker")
-public class WorkerController {
+@RequestMapping("/category")
+public class CategoryController {
 
 	/////////////////////////////////////////////////////INSERT//////////////////////////////////////////////////////////////
-	@RequestMapping(value = "insert", method = RequestMethod.POST)
-	public void insert(@RequestBody Worker worker) {
+	@RequestMapping(method = RequestMethod.POST, value = "add")
+	public void addCategory(@RequestParam String name) {
 		SqlSession session = MyBatisUtil.getSession();
 		try {
-			WorkerMapper mapper = session.getMapper(WorkerMapper.class);
-			mapper.insertWorker(worker);
+			CategoryMapper mapper = session.getMapper(CategoryMapper.class);
+			mapper.insertCategory(name);
 			session.commit();
 		} catch (Exception e) {
 			session.rollback();
@@ -33,21 +33,21 @@ public class WorkerController {
 			session.close();
 		}
 	}
-
+	
 	/////////////////////////////////////////////////////GET//////////////////////////////////////////////////////////////
-	@RequestMapping(value = "all", method = RequestMethod.GET)
-	public List<Worker> getAll() {
+	@RequestMapping(method = RequestMethod.GET, value = "all")
+	public List<Category> getAll() {
 		SqlSession session = MyBatisUtil.getSession();
-		List<Worker> workers = null;
+		List<Category> result = null;
 		try {
-			WorkerMapper mapper = session.getMapper(WorkerMapper.class);
-			workers = mapper.selectAllWorkersOrderByGolds();
+			CategoryMapper mapper = session.getMapper(CategoryMapper.class);
+			result = mapper.selectAllCategories();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			session.close();
 		}
-		return workers;
+		return result;
 	}
 
 }
