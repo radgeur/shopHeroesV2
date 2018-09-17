@@ -20,7 +20,7 @@
 	</select>
 	
 	<select id="selectJobOfPlayerId" parameterType="long" resultMap="jobResultMap">
-		SELECT *
+		SELECT DISTINCT(id), name
 		FROM job j
 		LEFT JOIN playerworkerjob pwj ON j.id=pwj.job
 		WHERE pwj.player=#{id}

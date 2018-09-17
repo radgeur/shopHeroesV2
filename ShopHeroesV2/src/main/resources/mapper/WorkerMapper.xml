@@ -24,7 +24,7 @@
 	</select>
 	
 	<select id="selectWorkersOfPlayerId" parameterType="long" resultMap="workerResultMap">
-		SELECT id, name, golds
+		SELECT DISTINCT(id), name, golds
 		FROM worker w
 		LEFT JOIN playerworkerjob pwj ON w.id = pwj.worker
 		WHERE pwj.player=#{id}

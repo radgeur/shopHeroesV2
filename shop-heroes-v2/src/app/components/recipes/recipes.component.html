@@ -1,3 +1,37 @@
-<p>
-  recipes works!
-</p>
+<div *ngIf="player.admin">
+  <h3> Add a new Category of Recipes</h3>
+  <form (ngSubmit)="addRecipeCategory(f)" #f="ngForm">
+    <label>Name :
+      <input name="name" ngModel/>
+    </label>
+    <button type="submit">
+      Add
+    </button>
+  </form>
+</div>
+
+
+<div *ngIf="player.admin">
+  <h3> Add a new Worker</h3>
+  <form (ngSubmit)="addWorker(f)" #f="ngForm">
+    <label>Name :
+      <input name="name" ngModel/>
+    </label>
+    <br />
+    <label>Golds :
+      <input type="number" name="golds" ngModel=name/>
+    </label>
+    <br />
+    <label> Job :
+      <select name="job" ngModel>
+        <option *ngFor="let job of jobs" [ngValue]="job">
+          {{job.name}}
+        </option>
+      </select>
+    </label>
+    <br />
+    <button type="submit">
+      Add
+    </button>
+  </form>
+</div>
