@@ -12,7 +12,7 @@ export class Player{
     name:string;
     password:string;
     level:number;
-    stonquantity:number;
+    stonequantity:number;
     leatherquantity:number;
     woodquantity:number;
     herbquantity:number;
