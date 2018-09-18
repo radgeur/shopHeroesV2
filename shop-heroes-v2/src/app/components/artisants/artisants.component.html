@@ -23,7 +23,7 @@
     <br />
     <div *ngIf="jobs">
       <label> Job :
-        <select formControlName="job"> <!-- [(ngModel)]="jobs[0]" -->
+        <select formControlName="job">
           <option *ngFor="let job of jobs" [ngValue]="job">
             {{job.name}}
           </option>

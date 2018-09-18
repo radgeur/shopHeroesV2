@@ -50,20 +50,22 @@ export class ArtisantsComponent implements OnInit{
       name: ''
     });
     this.workerForm = this.formBuilder.group({
-      name: new FormControl,
+      name: '',
       golds: 0,
-      job: new FormControl({name:'igfkqdhg', id:5})
+      job: ''
     });
   }
 
   addJob() {
     this.jobService.addJob(this.jobForm.value['name']).subscribe(_ => this.getAllJob());
     this.jobForm.reset();
-    this.getAllJob();
   }
 
   getAllJob() {
-    this.jobService.selectAll().subscribe(jobs => this.jobs = jobs);
+    this.jobService.selectAll().subscribe(jobs => {
+      this.jobs = jobs;
+      this.workerForm.controls['job'].setValue(jobs[0], {onlySelf: true})
+    });
   }
 
   addWorker() {
