@@ -1,12 +1,12 @@
 <h1>Register</h1>
 
 <div>
-  <form (ngSubmit)="register(f)" #f="ngForm">
+  <form (ngSubmit)="register()" [formGroup]="playerForm">
     <label>Username<br />
-      <input name="name" ngModel/>
+      <input formControlName="name"/>
     </label> <br />
     <label>Password<br />
-      <input name="password" type="password" ngModel/>
+      <input formControlName="password" type="password"/>
     </label>
     <br />
     <button type="submit">

@@ -1,8 +1,8 @@
 <div *ngIf="player.admin">
   <h3> Add a new Job</h3>
-  <form (ngSubmit)="addJob(f)" #f="ngForm">
+  <form (ngSubmit)="addJob(f)" [formGroup]="jobForm">
     <label>Name :
-      <input name="name" ngModel/>
+      <input formControlName="name"/>
     </label>
     <button type="submit">
       Add
@@ -12,22 +12,24 @@
 
 <div *ngIf="player.admin">
   <h3> Add a new Worker</h3>
-  <form (ngSubmit)="addWorker(f)" #f="ngForm">
+  <form (ngSubmit)="addWorker(f)" [formGroup]="workerForm">
     <label>Name :
-      <input name="name" ngModel/>
+      <input formControlName="name"/>
     </label>
     <br />
     <label>Golds :
-      <input type="number" name="golds" ngModel/>
+      <input type="number" formControlName="golds"/>
     </label>
     <br />
-    <label> Job :
-      <select name="job" ngModel>
-        <option *ngFor="let job of jobs" [ngValue]="job">
-          {{job.name}}
-        </option>
-      </select>
-    </label>
+    <div *ngIf="jobs">
+      <label> Job :
+        <select formControlName="job"> <!-- [(ngModel)]="jobs[0]" -->
+          <option *ngFor="let job of jobs" [ngValue]="job">
+            {{job.name}}
+          </option>
+        </select>
+      </label>
+    </div>
     <br />
     <button type="submit">
       Add

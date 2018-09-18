@@ -3,7 +3,7 @@ import {Router} from '@angular/router';
 
 import { PlayerService } from '../../services/player.service';
 import { Player } from '../../objects/player'
-import { NgForm } from '@angular/forms';
+import { NgForm, FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -12,16 +12,27 @@ import { NgForm } from '@angular/forms';
 })
 export class RegisterComponent implements OnInit {
 
+  playerForm: FormGroup;
+
   constructor(private playerService: PlayerService,
-    private router: Router
+    private router: Router,
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit() {
+    this.initForm();
   }
 
-  register(form: NgForm){
-    var name = form.value['name'].trim();
-    var password = form.value['password'];
+  initForm() {
+    this.playerForm = this.formBuilder.group({
+      name: '',
+      password: ''
+    });
+  }
+
+  register(){
+    var name = this.playerForm.value['name'].trim();
+    var password = this.playerForm.value['password'];
     name && password && this.playerService.signUpPlayer(new Player(name, password))
     .subscribe(player => {
       if(player !== null){

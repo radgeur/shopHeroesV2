@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 
 import {DashboardComponent} from '../dashboard/dashboard.component';
 import {Player} from '../../objects/player';
@@ -22,29 +22,43 @@ export class ArtisantsComponent implements OnInit{
   workers: Worker[];
   ownedWorkers:Worker[];
   notOwnedWorkers: Worker[];
+  jobForm: FormGroup;
+  workerForm: FormGroup;
 
   constructor(private dashboard: DashboardComponent,
     private jobService: JobService,
     private workerService: WorkerService,
     private playerService: PlayerService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private formBuilder: FormBuilder
   ) {
-    this.ownedWorkers = [];
-    this.notOwnedWorkers = [];
-    this.workers = [];
-    this.jobs = [];
+    this.ownedWorkers = null;
+    this.notOwnedWorkers = null;
+    this.workers = null;
+    this.jobs = null;
    }
 
   ngOnInit(){
     this.player = this.dashboard.player;
     this.getAllJob();
     this.getAllWorker();
+    this.initForm();
   }
 
-  addJob(form: NgForm) {
-    this.jobService.addJob(form.value['name'])
-      .subscribe();
-    form.reset();
+  initForm() {
+    this.jobForm = this.formBuilder.group({
+      name: ''
+    });
+    this.workerForm = this.formBuilder.group({
+      name: new FormControl,
+      golds: 0,
+      job: new FormControl({name:'igfkqdhg', id:5})
+    });
+  }
+
+  addJob() {
+    this.jobService.addJob(this.jobForm.value['name']).subscribe(_ => this.getAllJob());
+    this.jobForm.reset();
     this.getAllJob();
   }
 
@@ -52,10 +66,10 @@ export class ArtisantsComponent implements OnInit{
     this.jobService.selectAll().subscribe(jobs => this.jobs = jobs);
   }
 
-  addWorker(form: NgForm) {
-    var worker = new Worker(form.value["name"], form.value["golds"], form.value["job"]);
-    this.workerService.add(worker).subscribe();
-    form.reset();
+  addWorker() {
+    var worker = new Worker(this.workerForm.value["name"], this.workerForm.value["golds"], this.workerForm.value["job"]);
+    this.workerService.add(worker).subscribe(_ => this.getAllWorker());
+    this.workerForm.reset();
   }
 
   getAllWorker() {
@@ -83,6 +97,7 @@ export class ArtisantsComponent implements OnInit{
   sortWorkers(workers: Worker[]) {
     this.ownedWorkers = [];
     this.notOwnedWorkers = [];
+    this.workers = [];
     var self = this;
     workers.forEach(worker => {
       var bought = false;
