@@ -21,15 +21,13 @@
       <input type="number" formControlName="golds"/>
     </label>
     <br />
-    <div *ngIf="jobs">
-      <label> Job :
-        <select formControlName="job">
-          <option *ngFor="let job of jobs" [ngValue]="job">
-            {{job.name}}
-          </option>
-        </select>
-      </label>
-    </div>
+    <label> Job :
+      <select formControlName="job">
+        <option *ngFor="let job of jobs" [ngValue]="job">
+          {{job.name}}
+        </option>
+      </select>
+    </label>
     <br />
     <button type="submit">
       Add

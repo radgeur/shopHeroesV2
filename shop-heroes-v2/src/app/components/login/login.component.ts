@@ -34,6 +34,7 @@ export class LoginComponent implements OnInit {
       .subscribe(player => {
         if(player !== null){
           sessionStorage.setItem("player", JSON.stringify(player));
+          this.playerService.emitPlayerSubject();
           this.router.navigate(['/dashboard']);
         }
       });

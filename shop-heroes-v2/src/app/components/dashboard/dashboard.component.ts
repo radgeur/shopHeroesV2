@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import {Player} from '../../objects/player'
-import {SharedService} from '../../services/shared.service'
+import { Subscription } from 'rxjs';
+import { PlayerService } from '../../services/player.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,17 +13,14 @@ import {SharedService} from '../../services/shared.service'
 export class DashboardComponent implements OnInit {
 
   player: Player;
+  playerSubscription: Subscription;
   
-  constructor(private sharedService: SharedService,
-    private router: Router
-  ) {
-    sharedService.changeEmitted$.subscribe(
-      _ => {this.player = JSON.parse(sessionStorage.getItem("player"));}
-    );
-  }
+  constructor(private playerService: PlayerService,
+    private router: Router) { }
 
   ngOnInit() {
-    this.player = JSON.parse(sessionStorage.getItem("player"));
+    this.playerSubscription = this.playerService.playerSubject.subscribe(player => this.player = player);
+    this.playerService.emitPlayerSubject();
   }
 
   signOut(){

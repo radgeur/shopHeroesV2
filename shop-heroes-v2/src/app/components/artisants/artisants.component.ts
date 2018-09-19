@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 
-import {DashboardComponent} from '../dashboard/dashboard.component';
 import {Player} from '../../objects/player';
 import {JobService} from '../../services/job.service';
 import {WorkerService} from '../../services/worker.service';
 import {PlayerService} from '../../services/player.service';
-import {SharedService} from '../../services/shared.service';
 import {Job} from '../../objects/job';
 import {Worker} from '../../objects/worker';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-artisants',
@@ -18,6 +17,7 @@ import {Worker} from '../../objects/worker';
 export class ArtisantsComponent implements OnInit{
 
   player: Player;
+  playerSubscription: Subscription;
   jobs: Job[];
   workers: Worker[];
   ownedWorkers:Worker[];
@@ -25,11 +25,9 @@ export class ArtisantsComponent implements OnInit{
   jobForm: FormGroup;
   workerForm: FormGroup;
 
-  constructor(private dashboard: DashboardComponent,
-    private jobService: JobService,
+  constructor(private jobService: JobService,
     private workerService: WorkerService,
     private playerService: PlayerService,
-    private sharedService: SharedService,
     private formBuilder: FormBuilder
   ) {
     this.ownedWorkers = null;
@@ -39,7 +37,8 @@ export class ArtisantsComponent implements OnInit{
    }
 
   ngOnInit(){
-    this.player = this.dashboard.player;
+    this.playerSubscription = this.playerService.playerSubject.subscribe(player => this.player = player);
+    this.playerService.emitPlayerSubject();
     this.getAllJob();
     this.getAllWorker();
     this.initForm();
@@ -85,7 +84,7 @@ export class ArtisantsComponent implements OnInit{
           this.player = player;
           sessionStorage.setItem("player", JSON.stringify(player));
           this.sortWorkers(this.workers);
-          this.sharedService.updatePlayerData()
+          this.playerService.emitPlayerSubject();
         });
       }
     );

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Player } from '../objects/player';
 import { Worker } from '../objects/worker';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
@@ -16,6 +16,9 @@ const root = "http://localhost:8080/player"
 })
 
 export class PlayerService {
+
+  private player: Player;
+  playerSubject = new Subject<Player>();
 
   constructor(private http: HttpClient) { }
 
@@ -87,6 +90,11 @@ export class PlayerService {
     return  (sessionStorage.getItem('player') === null 
       || sessionStorage.getItem('player') === undefined
       || sessionStorage.getItem('player') === "undefined") ? false : true;;
+  }
+
+  emitPlayerSubject(){
+    this.player = JSON.parse(sessionStorage.getItem("player"));
+    this.playerSubject.next(this.player);
   }
 
   /**
