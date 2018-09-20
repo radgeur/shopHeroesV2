@@ -66,13 +66,13 @@ public class PlayerController {
 	}
 	
 	/////////////////////////////////////////////////////GET//////////////////////////////////////////////////////////////
-	@RequestMapping(value = "/infos", method = RequestMethod.GET)
-	public Player getPlayerWithWorkersAndJobs(@RequestParam String name, @RequestParam String password) {
+	@RequestMapping(value = "/infos", method = RequestMethod.POST)
+	public Player getPlayerWithWorkersAndJobs(@RequestBody Player player) {
 		SqlSession session = MyBatisUtil.getSession();
 		Player result = null;
 		try {
 			final PlayerMapper playerMapper = session.getMapper(PlayerMapper.class);
-			result = getFullPlayer(name, password, playerMapper);
+			result = getFullPlayer(player.getName(), player.getPassword(), playerMapper);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

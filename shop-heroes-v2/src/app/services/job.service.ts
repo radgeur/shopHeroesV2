@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
+import { Job } from '../objects/job';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -17,8 +18,8 @@ export class JobService {
 
   constructor(private http: HttpClient) { }
 
-  addJob(name: string): Observable<any> {
-    return this.http.post(`${root}/add?name=${name}`, httpOptions)
+  addJob(job: Job): Observable<any> {
+    return this.http.post(`${root}/add`, job, httpOptions)
       .pipe(
         catchError(this.handleError<any>(`addJob`))
       );

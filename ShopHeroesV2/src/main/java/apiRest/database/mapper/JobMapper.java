@@ -10,7 +10,7 @@ public interface JobMapper {
 	public List<Job> selectJobOfPlayerId(long id);
 	public Job selectJobById(long id);
 	
-	public void insertJob(String name);
+	public void insertJob(Job job);
 	
 	
 }

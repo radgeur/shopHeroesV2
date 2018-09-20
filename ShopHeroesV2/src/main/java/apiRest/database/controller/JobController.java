@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import apiRest.MyBatisUtil;
@@ -20,11 +20,11 @@ public class JobController {
 
 	///////////////////////////////////////////////////// INSERT//////////////////////////////////////////////////////////////
 	@RequestMapping(method = RequestMethod.POST, value = "add")
-	public void addJob(@RequestParam String name) {
+	public void addJob(@RequestBody Job job) {
 		SqlSession session = MyBatisUtil.getSession();
 		try {
 			JobMapper mapper = session.getMapper(JobMapper.class);
-			mapper.insertJob(name);
+			mapper.insertJob(job);
 			session.commit();
 		} catch (Exception e) {
 			session.rollback();

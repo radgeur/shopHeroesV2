@@ -45,19 +45,16 @@ export class ArtisantsComponent implements OnInit{
   }
 
   initForm() {
-    this.jobForm = this.formBuilder.group({
-      name: ''
-    });
-    this.workerForm = this.formBuilder.group({
-      name: '',
-      golds: 0,
-      job: ''
-    });
+    this.initJobForm();
+    this.initWorkerForm();
   }
 
+  initJobForm() { this.jobForm = this.formBuilder.group(new Job('')); }
+  initWorkerForm() { this.workerForm = this.formBuilder.group(new Worker('', 0, new Job(''))); }
+
   addJob() {
-    this.jobService.addJob(this.jobForm.value['name']).subscribe(_ => this.getAllJob());
-    this.jobForm.reset();
+    this.jobService.addJob(this.jobForm.value).subscribe(_ => this.getAllJob());
+    this.initJobForm();
   }
 
   getAllJob() {
@@ -68,9 +65,9 @@ export class ArtisantsComponent implements OnInit{
   }
 
   addWorker() {
-    var worker = new Worker(this.workerForm.value["name"], this.workerForm.value["golds"], this.workerForm.value["job"]);
-    this.workerService.add(worker).subscribe(_ => this.getAllWorker());
-    this.workerForm.reset();
+    this.workerService.add(this.workerForm.value).subscribe(_ => this.getAllWorker());
+    this.initWorkerForm();
+    this.workerForm.controls['job'].setValue(this.jobs[0], {onlySelf: true})
   }
 
   getAllWorker() {

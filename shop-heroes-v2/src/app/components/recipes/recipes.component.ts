@@ -8,6 +8,7 @@ import { MaterialService } from '../../services/material.service';
 import { Material } from '../../objects/material';
 import { Subscription } from 'rxjs';
 import { PlayerService } from '../../services/player.service';
+import { RecipeService } from '../../services/recipe.service';
 
 @Component({
   selector: 'app-recipes',
@@ -26,23 +27,27 @@ export class RecipesComponent implements OnInit {
   constructor(private categoryService: CategoryService,
     private materialService: MaterialService,
     private formBuilder: FormBuilder,
-    private playerService: PlayerService) { 
+    private playerService: PlayerService,
+    private recipeService: RecipeService) { 
       this.categories = null;
       this.materials = null;
     }
 
   ngOnInit() {
-    this.initForm();
     this.playerSubscription = this.playerService.playerSubject.subscribe(player => this.player = player);
     this.playerService.emitPlayerSubject();
     this.getCategories();
     this.getMaterials();
+    this.initForm();
   }
 
   initForm() {
-    this.categoryForm = this.formBuilder.group({
-      name: ''
-    });
+    this.initCategoryForm();
+    this.initRecipeForm();
+  }
+
+  initCategoryForm() { this.categoryForm = this.formBuilder.group(new Category('')); }
+  initRecipeForm() { 
     this.recipeForm = this.formBuilder.group({
       name: '',
       golds: 0,
@@ -51,16 +56,21 @@ export class RecipesComponent implements OnInit {
       materials: this.formBuilder.array([]),
       category: ''
     });
+    /*new Recipe('', 0, 0, 1, null, new Category(''))
+    this.recipeForm.controls['materials'].setValue(this.formBuilder.array([]));
+    this.recipeForm.patchValue({'materials': this.formBuilder.array([])})*/
   }
 
   addRecipeCategory() {
     this.categoryService.addCategory(this.categoryForm.value['name']).subscribe(_ => this.getCategories());
-    this.categoryForm.reset();
+    this.initCategoryForm();
   }
 
   addRecipe() {
     console.log(this.recipeForm.value);
-    this.categoryForm.reset();
+    this.recipeService.addRecipe(this.recipeForm.value).subscribe();
+    this.initRecipeForm();
+    this.recipeForm.controls['category'].setValue(this.categories[0], {onlySelf: true});
   }
 
   getCategories() {
@@ -79,6 +89,7 @@ export class RecipesComponent implements OnInit {
   }
 
   onAddMaterial() {
+    console.log(this.getMaterialsFromForm());
     var item = this.formBuilder.group(new Material(0, 'unknown', 0));
     this.getMaterialsFromForm().push(item);
   }

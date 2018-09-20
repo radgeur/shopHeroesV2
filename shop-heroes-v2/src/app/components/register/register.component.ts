@@ -24,16 +24,13 @@ export class RegisterComponent implements OnInit {
   }
 
   initForm() {
-    this.playerForm = this.formBuilder.group({
-      name: '',
-      password: ''
-    });
+    this.playerForm = this.formBuilder.group(new Player('', ''));
   }
 
   register(){
     var name = this.playerForm.value['name'].trim();
     var password = this.playerForm.value['password'];
-    name && password && this.playerService.signUpPlayer(new Player(name, password))
+    name && password && this.playerService.signUpPlayer(this.playerForm.value)
     .subscribe(player => {
       if(player !== null){
         sessionStorage.setItem("player", JSON.stringify(player));

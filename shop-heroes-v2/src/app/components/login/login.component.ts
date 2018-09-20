@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import {NgForm, FormBuilder, FormGroup} from '@angular/forms';
 
 import { PlayerService } from '../../services/player.service';
+import { Player } from '../../objects/player';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +13,7 @@ import { PlayerService } from '../../services/player.service';
 export class LoginComponent implements OnInit {
 
   playerForm: FormGroup;
+  player: Player;
 
   constructor(private playerService: PlayerService,
     private router: Router,
@@ -23,14 +25,11 @@ export class LoginComponent implements OnInit {
   }
 
   initForm() {
-    this.playerForm = this.formBuilder.group({
-      name: '',
-      password: ''
-    });
+    this.playerForm = this.formBuilder.group(new Player('', ''));
   }
 
   signUp(){
-    this.playerService.getPlayer(this.playerForm.value['name'], this.playerForm.value['password'])
+    this.playerService.getPlayer(this.playerForm.value)
       .subscribe(player => {
         if(player !== null){
           sessionStorage.setItem("player", JSON.stringify(player));
