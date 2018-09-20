@@ -6,7 +6,7 @@
 	<resultMap type="apiRest.database.classe.Recipe" id="recipeResultMap">
 		<id 	property="id"				column="id" />
 		<result property="name"				column="name" />
-		<result property="minLevel" 		column="minLevel" />
+		<result property="minLevel" 		column="minevel" />
 		<result property="golds" 			column="golds" />
 		<result property="xp" 				column="xp" />
 		<association property="category"	javaType="apiRest.database.classe.Category"
@@ -14,8 +14,8 @@
 	</resultMap>
 	
 	<!-- insert -->
-	<insert id="insertRecipe" parameterType="apiRest.database.classe.Recipe" keyProperty="id">
-		INSERT INTO worker(name, minLevel, golds, xp, category) values (#{name}, #{minLevel}, #{golds}, #{xp}, #{category.id})
+	<insert id="insertRecipe" parameterType="apiRest.database.classe.Recipe" keyProperty="id" useGeneratedKeys="true" keyColumn="id">
+		INSERT INTO recipe(name, minlevel, golds, xp, category) values (#{name}, #{minLevel}, #{golds}, #{xp}, #{category.id})
 	</insert>
 
 </mapper>

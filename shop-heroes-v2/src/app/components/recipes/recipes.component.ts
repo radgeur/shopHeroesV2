@@ -67,7 +67,6 @@ export class RecipesComponent implements OnInit {
   }
 
   addRecipe() {
-    console.log(this.recipeForm.value);
     this.recipeService.addRecipe(this.recipeForm.value).subscribe();
     this.initRecipeForm();
     this.recipeForm.controls['category'].setValue(this.categories[0], {onlySelf: true});
@@ -89,7 +88,6 @@ export class RecipesComponent implements OnInit {
   }
 
   onAddMaterial() {
-    console.log(this.getMaterialsFromForm());
     var item = this.formBuilder.group(new Material(0, 'unknown', 0));
     this.getMaterialsFromForm().push(item);
   }

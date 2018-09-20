@@ -7,9 +7,16 @@
 		<result property="name" 			column="name" />
 	</resultMap>
 	
+	<!-- insert -->
+	<insert id="insertMaterialQuantity" parameterType="map">
+		INSERT INTO materialrecipe 
+		VALUES (#{recipe}, #{material}, #{quantity})
+	</insert>
+	
+	
+	<!-- select -->
 	<select id="selectAllMaterials" resultMap="materialResultMap">
 		SELECT *
 		FROM material
 	</select>
-	
 </mapper>
