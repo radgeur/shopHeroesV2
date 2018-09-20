@@ -92,4 +92,8 @@ export class RecipesComponent implements OnInit {
     this.getMaterialsFromForm().push(item);
   }
 
+  onDeleteMaterial(index: number){
+    this.getMaterialsFromForm().removeAt(index);
+  }
+
 }
