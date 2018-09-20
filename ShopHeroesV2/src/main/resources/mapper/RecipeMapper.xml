@@ -10,12 +10,20 @@
 		<result property="golds" 			column="golds" />
 		<result property="xp" 				column="xp" />
 		<association property="category"	javaType="apiRest.database.classe.Category"
-			select="apiRest.database.mapper.RecipeMapper.selectCategoryById" column="category"/>
+			select="apiRest.database.mapper.CategoryMapper.selectCategoryById" column="category"/>
+		<collection property="materials" javaType="ArrayList" ofType="apiRest.database.classe.Material"
+			select="apiRest.database.mapper.MaterialMapper.selectMaterialByRecipeId" column="id"/>
 	</resultMap>
 	
 	<!-- insert -->
 	<insert id="insertRecipe" parameterType="apiRest.database.classe.Recipe" keyProperty="id" useGeneratedKeys="true" keyColumn="id">
 		INSERT INTO recipe(name, minlevel, golds, xp, category) values (#{name}, #{minLevel}, #{golds}, #{xp}, #{category.id})
 	</insert>
+	
+	<!-- select -->
+	<select id="selectAllRecipes" resultMap="recipeResultMap">
+		SELECT *
+		FROM recipe
+	</select>
 
 </mapper>

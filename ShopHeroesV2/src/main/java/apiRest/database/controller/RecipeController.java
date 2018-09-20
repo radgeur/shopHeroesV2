@@ -1,6 +1,7 @@
 package apiRest.database.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -21,7 +22,7 @@ import apiRest.database.mapper.RecipeMapper;
 @RequestMapping("/recipe")
 public class RecipeController {
 
-	///////////////////////////////////////////////////// INSERT//////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////INSERT//////////////////////////////////////////////////////////////
 	@RequestMapping(value = "/addRecipe", method = RequestMethod.POST)
 	public void insert(@RequestBody Recipe recipe) {
 		SqlSession session = MyBatisUtil.getSession();
@@ -44,6 +45,22 @@ public class RecipeController {
 		} finally {
 			session.close();
 		}
+	}
+	
+	/////////////////////////////////////////////////////GET//////////////////////////////////////////////////////////////
+	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
+	public List<Recipe> selectAll() {
+		SqlSession session = MyBatisUtil.getSession();
+		List<Recipe> result = null;
+		try {
+			RecipeMapper recipeMapper = session.getMapper(RecipeMapper.class);
+			result = recipeMapper.selectAllRecipes();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return result;
 	}
 
 }

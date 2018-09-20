@@ -19,4 +19,11 @@
 		SELECT *
 		FROM material
 	</select>
+	
+	<select id="selectMaterialByRecipeId" resultMap="materialResultMap">
+		SELECT m.id, m.name, mp.quantity
+		FROM material m
+		LEFT JOIN materialRecipe mp ON m.id = mp.material
+		WHERE recipe = #{idRecipe}
+	</select>
 </mapper>
