@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
-import {DashboardComponent} from '../dashboard/dashboard.component';
 import { Player } from '../../objects/player';
-import { NgForm, FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
 import { CategoryService } from '../../services/category.service';
 import { Category } from '../../objects/category';
 import { MaterialService } from '../../services/material.service';
 import { Material } from '../../objects/material';
+import { Subscription } from 'rxjs';
+import { PlayerService } from '../../services/player.service';
 
 @Component({
   selector: 'app-recipes',
@@ -16,21 +17,24 @@ import { Material } from '../../objects/material';
 export class RecipesComponent implements OnInit {
 
   player : Player;
+  playerSubscription: Subscription;
   categories: Category[];
   materials:Material[];
   categoryForm: FormGroup;
+  recipeForm: FormGroup;
 
-  constructor(private dashboard: DashboardComponent,
-    private categoryService: CategoryService,
+  constructor(private categoryService: CategoryService,
     private materialService: MaterialService,
-    private formBuilder: FormBuilder) { 
+    private formBuilder: FormBuilder,
+    private playerService: PlayerService) { 
       this.categories = null;
       this.materials = null;
     }
 
   ngOnInit() {
     this.initForm();
-    this.player = this.dashboard.player;
+    this.playerSubscription = this.playerService.playerSubject.subscribe(player => this.player = player);
+    this.playerService.emitPlayerSubject();
     this.getCategories();
     this.getMaterials();
   }
@@ -38,25 +42,45 @@ export class RecipesComponent implements OnInit {
   initForm() {
     this.categoryForm = this.formBuilder.group({
       name: ''
-    })
+    });
+    this.recipeForm = this.formBuilder.group({
+      name: '',
+      golds: 0,
+      xp: 0,
+      minLevel: 1,
+      materials: this.formBuilder.array([]),
+      category: ''
+    });
   }
 
-  addRecipeCategory(form: NgForm) {
-    this.categoryService.addCategory(form.value['name']).subscribe(_ => this.getCategories());
-    form.reset();
+  addRecipeCategory() {
+    this.categoryService.addCategory(this.categoryForm.value['name']).subscribe(_ => this.getCategories());
+    this.categoryForm.reset();
   }
 
-  addRecipe(form: NgForm) {
-    console.log(form.value);
-    form.reset();
+  addRecipe() {
+    console.log(this.recipeForm.value);
+    this.categoryForm.reset();
   }
 
   getCategories() {
-    this.categoryService.selectAll().subscribe(categories => this.categories = categories);
+    this.categoryService.selectAll().subscribe(categories => {
+      this.categories = categories,
+      this.recipeForm.controls['category'].setValue(categories[0], {onlySelf: true})
+    });
   }
 
   getMaterials(){
     this.materialService.selectAll().subscribe(materials => this.materials = materials);
+  }
+
+  getMaterialsFromForm(): FormArray {
+    return this.recipeForm.get('materials') as FormArray;
+  }
+
+  onAddMaterial() {
+    var item = this.formBuilder.group(new Material(0, 'unknown', 0));
+    this.getMaterialsFromForm().push(item);
   }
 
 }

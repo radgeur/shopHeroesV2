@@ -1,8 +1,8 @@
 <div *ngIf="player.admin">
   <h3> Add a new Category of Recipes</h3>
-  <form (ngSubmit)="addRecipeCategory(f)" #f="ngForm">
+  <form (ngSubmit)="addRecipeCategory(f)" [formGroup]="categoryForm">
     <label>Name :
-      <input name="name" ngModel/>
+      <input formControlName="name"/>
     </label>
     <button type="submit">
       Add
@@ -13,29 +13,40 @@
 
 <div *ngIf="player.admin">
   <h3> Add a new Recipe</h3>
-  <form (ngSubmit)="addRecipe(f)" #f="ngForm">
+  <form (ngSubmit)="addRecipe(f)" [formGroup]="recipeForm">
     <label>Name :
-      <input name="name" ngModel/>
+      <input formControlName="name"/>
     </label>
     <br />
     <label>Golds :
-      <input type="number" name="golds" ngModel="0"/>
+      <input type="number" formControlName="golds"/>
     </label>
     <br />
     <label>Xp :
-      <input type="number" name="xp" ngModel="0"/>
+      <input type="number" formControlName="xp"/>
     </label>
     <br />
     <label>Level minimum :
-      <input type="number" name="minLevel" ngModel="1"/>
+      <input type="number" formControlName="minLevel"/>
     </label>
     <br />
-    <label *ngFor="let material of materials">{{material.name}} :
-      <input type="number" name="{{material.name}}" ngModel="0"/>
-      <br />
+    <label> Materials : <br />
+    <div formArrayName="materials" *ngFor="let materialControl of getMaterialsFromForm().controls; let i = index">
+      <div  [formGroupName]="i">
+        <select formControlName="id">
+          <option *ngFor="let material of materials" [ngValue]="material.id">
+            {{material.name}}
+          </option>
+        </select>
+        <input type="number" formControlName="quantity">
+      </div>
+    </div>
+    <button type="button" (click)="onAddMaterial()">Add material</button>
+    <br />
     </label>
+    
     <label> Category :
-      <select name="category" ngModel>
+      <select formControlName="category">
         <option *ngFor="let category of categories" [ngValue]="category">
           {{category.name}}
         </option>

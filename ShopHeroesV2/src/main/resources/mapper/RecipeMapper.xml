@@ -12,5 +12,10 @@
 		<association property="category"	javaType="apiRest.database.classe.Category"
 			select="apiRest.database.mapper.RecipeMapper.selectCategoryById" column="category"/>
 	</resultMap>
+	
+	<!-- insert -->
+	<insert id="insertRecipe" parameterType="apiRest.database.classe.Recipe" keyProperty="id">
+		INSERT INTO worker(name, minLevel, golds, xp, category) values (#{name}, #{minLevel}, #{golds}, #{xp}, #{category.id})
+	</insert>
 
 </mapper>

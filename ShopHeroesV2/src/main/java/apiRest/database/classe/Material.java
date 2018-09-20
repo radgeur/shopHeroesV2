@@ -9,5 +9,6 @@ public class Material {
 
 	private long id;
 	private String name;
+	private int quantity;
 	
 }
