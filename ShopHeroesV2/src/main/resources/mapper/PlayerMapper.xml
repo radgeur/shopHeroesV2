@@ -47,28 +47,10 @@
 	</insert>
 	
 	<!-- udpate -->
-	<update id="updateStoneQuantity" parameterType="apiRest.database.classe.Player">
-		UPDATE player SET
-			"stonequantity" = #{stoneQuantity}
-		WHERE id = #{id}
-	</update>
-	
-	<update id="updateWoodQuantity" parameterType="apiRest.database.classe.Player">
-		UPDATE player SET
-			"woodquantity" = #{woodQuantity}
-		WHERE id = #{id}
-	</update>
-	
-	<update id="updateLeatherQuantity" parameterType="apiRest.database.classe.Player">
-		UPDATE player SET
-			"leatherquantity" = #{leatherQuantity}
-		WHERE id = #{id}
-	</update>
-	
-	<update id="updateHerbQuantity" parameterType="apiRest.database.classe.Player">
-		UPDATE player SET
-			"herbquantity" = #{herbQuantity}
-		WHERE id = #{id}
+	<update id="updateQuantityForPlayerByMaterialId" parameterType="map">
+		UPDATE playermaterial SET
+			quantity = #{quantity}
+		WHERE player = #{player} AND material = #{material}
 	</update>
 	
 	<update id="updateQuantities" parameterType="apiRest.database.classe.Player">

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { PlayerService } from '../../services/player.service';
 import {Player} from '../../objects/player';
 import { Subscription } from 'rxjs';
+import { Material } from '../../objects/material';
 
 @Component({
   selector: 'app-resources',
@@ -21,44 +22,16 @@ export class ResourcesComponent implements OnInit {
     this.playerService.emitPlayerSubject();
   }
 
-  updateStoneQuantity(quantity: number){
-    this.playerService.updateStoneQuantity(this.player, quantity)
-      .subscribe(player => {
-        sessionStorage.setItem("player", JSON.stringify(player));
-        this.playerService.emitPlayerSubject();
-      });
-  }
-
-  updateWoodQuantity(quantity: number){
-    this.playerService.updateWoodQuantity(this.player, quantity)
-      .subscribe(player => {
-        sessionStorage.setItem("player", JSON.stringify(player));
-        this.playerService.emitPlayerSubject();
-      });
-  }
-
-  updateLeatherQuantity(quantity: number){
-    this.playerService.updateLeatherQuantity(this.player, quantity)
-      .subscribe(player => {
-        sessionStorage.setItem("player", JSON.stringify(player));
-        this.playerService.emitPlayerSubject();
-      });
-  }
-
-  updateHerbQuantity(quantity: number){
-    this.playerService.updateHerbQuantity(this.player, quantity)
-      .subscribe(player => {
-        sessionStorage.setItem("player", JSON.stringify(player));
-        this.playerService.emitPlayerSubject();
-      });
-  }
-
-  updateQuantities(stone: number, wood: number, leather: number, herb: number) {
-    this.playerService.updateQuantities(this.player, stone*1, wood*1, leather*1, herb*1)
-      .subscribe(player => {
-        sessionStorage.setItem("player", JSON.stringify(player));
-        this.playerService.emitPlayerSubject();
-    });
+  updateMaterialQuantity(material: Material, quantity: number){
+    this.player.materials.map(function(m){
+      if(m.id === material.id)
+        m.quantity += quantity*1;
+      return m;
+    })
+    this.playerService.updateMaterialQuantities(this.player).subscribe(player => {
+      sessionStorage.setItem("player", JSON.stringify(player));
+      this.playerService.emitPlayerSubject();
+    })
   }
 
 }

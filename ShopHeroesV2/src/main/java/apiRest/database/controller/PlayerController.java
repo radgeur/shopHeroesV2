@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import apiRest.MyBatisUtil;
+import apiRest.database.classe.Material;
 import apiRest.database.classe.Player;
 import apiRest.database.classe.Worker;
 import apiRest.database.mapper.PlayerMapper;
@@ -23,7 +24,7 @@ import apiRest.database.mapper.WorkerMapper;
 @RequestMapping("/player")
 public class PlayerController {
 
-	/////////////////////////////////////////////////////INSERT//////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////// INSERT//////////////////////////////////////////////////////////////
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	public Player signUp(@RequestBody Player player) {
 		SqlSession session = MyBatisUtil.getSession();
@@ -33,7 +34,7 @@ public class PlayerController {
 			playerMapper.insertPlayer(player);
 			final WorkerMapper workerMapper = session.getMapper(WorkerMapper.class);
 			List<Worker> freeWorkers = workerMapper.selectFreeWorkers();
-			for(Worker worker : freeWorkers) {
+			for (Worker worker : freeWorkers) {
 				addWorkerToPlayer(player.getId(), worker, playerMapper);
 			}
 			session.commit();
@@ -64,8 +65,8 @@ public class PlayerController {
 			session.close();
 		}
 	}
-	
-	/////////////////////////////////////////////////////GET//////////////////////////////////////////////////////////////
+
+	///////////////////////////////////////////////////// GET//////////////////////////////////////////////////////////////
 	@RequestMapping(value = "/infos", method = RequestMethod.POST)
 	public Player getFullPlayerInfos(@RequestBody Player player) {
 		SqlSession session = MyBatisUtil.getSession();
@@ -80,7 +81,7 @@ public class PlayerController {
 		}
 		return result;
 	}
-	
+
 	@RequestMapping(method = RequestMethod.GET)
 	public Player getPlayer(@RequestParam int id) {
 		SqlSession session = MyBatisUtil.getSession();
@@ -97,106 +98,49 @@ public class PlayerController {
 	}
 
 	///////////////////////////////////////////////////// UPDATE//////////////////////////////////////////////////////////////
-	/*@RequestMapping(value = "/updateStoneQuantity", method = RequestMethod.POST)
-	public Player updateStone(@RequestBody Player player, @RequestParam int quantity) {
+	@RequestMapping(value = "udpateMaterialQuantity", method = RequestMethod.POST)
+	public Player updateMaterialQuantity(@RequestBody Player player) {
 		SqlSession session = MyBatisUtil.getSession();
-		Player result = null;
 		try {
-			final PlayerMapper mapper = session.getMapper(PlayerMapper.class);
-			result = mapper.selectPlayerById(player.getId());
-			result.setStoneQuantity(result.getStoneQuantity() + quantity);
-			mapper.updateStoneQuantity(result);
+			PlayerMapper mapper = session.getMapper(PlayerMapper.class);
+			Map<String, Long> map = new HashMap<>();
+			for(Material material: player.getMaterials()) {
+				map.put("player", player.getId());
+				map.put("material", material.getId());
+				map.put("quantity", new Long(material.getQuantity()));
+				mapper.updateQuantityForPlayerByMaterialId(map);
+				map.clear();
+			}
+			player = mapper.selectPlayerById(player.getId());
 			session.commit();
 		} catch (Exception e) {
-			session.rollback();
 			e.printStackTrace();
+			session.rollback();
 		} finally {
 			session.close();
 		}
-		return result;
+		return player;
 	}
 
-	@RequestMapping(value = "/updateWoodQuantity", method = RequestMethod.POST)
-	public Player updateWood(@RequestBody Player player, @RequestParam int quantity) {
-		SqlSession session = MyBatisUtil.getSession();
-		Player result = null;
-		try {
-			final PlayerMapper mapper = session.getMapper(PlayerMapper.class);
-			result = mapper.selectPlayerById(player.getId());
-			result.setWoodQuantity(result.getWoodQuantity() + quantity);
-			mapper.updateWoodQuantity(result);
-			session.commit();
-		} catch (Exception e) {
-			session.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-		return result;
-	}
+	/*
+	 * @RequestMapping(value = "/updateQuantities", method = RequestMethod.POST)
+	 * public Player updateQuantities(@RequestBody Player player, @RequestParam int
+	 * stoneQuantity,
+	 * 
+	 * @RequestParam int woodQuantity, @RequestParam int
+	 * leatherQuantity, @RequestParam int herbQuantity) { SqlSession session =
+	 * MyBatisUtil.getSession(); Player result = null; try { final PlayerMapper
+	 * mapper = session.getMapper(PlayerMapper.class); result =
+	 * mapper.selectPlayerById(player.getId());
+	 * result.setStoneQuantity(result.getStoneQuantity() + leatherQuantity);
+	 * result.setWoodQuantity(result.getWoodQuantity() + woodQuantity);
+	 * result.setLeatherQuantity(result.getLeatherQuantity() + leatherQuantity);
+	 * result.setHerbQuantity(result.getHerbQuantity() + herbQuantity);
+	 * mapper.updateQuantities(result); session.commit(); } catch (Exception e) {
+	 * session.rollback(); e.printStackTrace(); } finally { session.close(); }
+	 * return result; }
+	 */
 
-	@RequestMapping(value = "/updateLeatherQuantity", method = RequestMethod.POST)
-	public Player updateLeather(@RequestBody Player player, @RequestParam int quantity) {
-		SqlSession session = MyBatisUtil.getSession();
-		Player result = null;
-		try {
-			final PlayerMapper mapper = session.getMapper(PlayerMapper.class);
-			result = mapper.selectPlayerById(player.getId());
-			result.setLeatherQuantity(result.getLeatherQuantity() + quantity);
-			mapper.updateLeatherQuantity(result);
-			session.commit();
-		} catch (Exception e) {
-			session.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-		return result;
-	}
-
-	@RequestMapping(value = "/updateHerbQuantity", method = RequestMethod.POST)
-	public Player udpateHerb(@RequestBody Player player, @RequestParam int quantity) {
-		SqlSession session = MyBatisUtil.getSession();
-		Player result = null;
-		try {
-			final PlayerMapper mapper = session.getMapper(PlayerMapper.class);
-			result = mapper.selectPlayerById(player.getId());
-			result.setHerbQuantity(result.getHerbQuantity() + quantity);
-			mapper.updateHerbQuantity(result);
-			session.commit();
-		} catch (Exception e) {
-			session.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-		return result;
-	}
-
-	@RequestMapping(value = "/updateQuantities", method = RequestMethod.POST)
-	public Player updateQuantities(@RequestBody Player player, @RequestParam int stoneQuantity,
-			@RequestParam int woodQuantity, @RequestParam int leatherQuantity, @RequestParam int herbQuantity) {
-		SqlSession session = MyBatisUtil.getSession();
-		Player result = null;
-		try {
-			final PlayerMapper mapper = session.getMapper(PlayerMapper.class);
-			result = mapper.selectPlayerById(player.getId());
-			result.setStoneQuantity(result.getStoneQuantity() + leatherQuantity);
-			result.setWoodQuantity(result.getWoodQuantity() + woodQuantity);
-			result.setLeatherQuantity(result.getLeatherQuantity() + leatherQuantity);
-			result.setHerbQuantity(result.getHerbQuantity() + herbQuantity);
-			mapper.updateQuantities(result);
-			session.commit();
-		} catch (Exception e) {
-			session.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-		return result;
-	}*/
-	
-	
 	////////////////////////////////////////////////////////OTHER//////////////////////////////////////////////////////////
 	private Player getFullPlayer(String name, String password, PlayerMapper mapper) {
 		Map<String, String> map = new HashMap<>();
@@ -204,7 +148,6 @@ public class PlayerController {
 		map.put("password", password);
 		return mapper.selectPlayer(map);
 	}
-	
 
 	private void addWorkerToPlayer(long id, Worker worker, PlayerMapper mapper) {
 		Map<String, Integer> map = new HashMap<>();

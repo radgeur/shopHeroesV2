@@ -33,4 +33,5 @@
 		LEFT JOIN playermaterial pm ON m.id = pm.material
 		WHERE player = #{idPlayer}
 	</select>
+	
 </mapper>

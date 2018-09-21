@@ -1,39 +1,19 @@
 <div>
-  <button (click) = "updateStoneQuantity(1)">
-    +1 stone
+  <button *ngFor="let material of player.materials" (click)="updateMaterialQuantity(material, 1)">
+    +1 {{material.name}}
   </button>
-  <button (click) = "updateWoodQuantity(1)">
-    +1 wood
-  </button>
-  <button (click) = "updateLeatherQuantity(1)">
-    +1 leather
-  </button>
-  <button (click) = "updateHerbQuantity(1)">
-    +1 herb
-  </button>
+</div>
 
 
-  <div *ngIf="player.admin">
-    <br/><br/>
-    <label> Stone:
-      <input #stone/>
+<div *ngIf="player.admin">
+  <br/><br/>
+  <span *ngFor="let material of player.materials; let i = index">
+    <label> {{material.name}} : 
+      <input #quantity type="number"/>
     </label>
-    <br />
-    <label> Wood:
-      <input #wood/>
-    </label>
-    <br />
-    <label> Leather:
-      <input #leather/>
-    </label>
-    <br />
-    <label> Herb:
-      <input #herb/>
-    </label>
-    <br />
-    <button (click)="updateQuantities(stone.value, wood.value, leather.value, herb.value);
-      stone.value=''; wood.value=''; leather.value=''; herb.value=''">
-      Update quantities
+    <button (click)="updateMaterialQuantity(material, quantity.value)">
+      Update {{material.name}} quantity
     </button>
-  </div>
+    <br />
+  </span>
 </div>

@@ -50,39 +50,10 @@ export class PlayerService {
       );
   }
 
-  updateStoneQuantity(player: Player, quantity: number): Observable<Player> {
-    return this.http.post(`${root}/updateStoneQuantity?quantity=${quantity}`, player, httpOptions)
-      .pipe(
-        catchError(this.handleError<any>('updateStoneQuantity'))
-      );
-  }
-
-  updateWoodQuantity(player: Player, quantity: number): Observable<Player> {
-    return this.http.post(`${root}/updateWoodQuantity?quantity=${quantity}`, player, httpOptions)
-      .pipe(
-        catchError(this.handleError<any>('updateWoodQuantity'))
-      );
-  }
-
-  updateLeatherQuantity(player: Player, quantity: number): Observable<Player> {
-    return this.http.post(`${root}/updateLeatherQuantity?quantity=${quantity}`, player, httpOptions)
-      .pipe(
-        catchError(this.handleError<any>('updateLeatherQuantity'))
-      );
-  }
-
-  updateHerbQuantity(player: Player, quantity: number): Observable<Player> {
-    return this.http.post(`${root}/updateHerbQuantity?quantity=${quantity}`, player, httpOptions)
-      .pipe(
-        catchError(this.handleError<any>('updateHerbQuantity'))
-      );
-  }
-
-  updateQuantities(player: Player, stone: number, wood:number, leather: number, herb: number): Observable<Player> {
-    return this.http.post(`${root}/updateQuantities?stoneQuantity=${stone}&woodQuantity=${wood}
-      &leatherQuantity=${leather}&herbQuantity=${herb}`, player, httpOptions)
+  updateMaterialQuantities(player: Player): Observable<Player> {
+    return this.http.post(`${root}/udpateMaterialQuantity`, player, httpOptions)
     .pipe(
-      catchError(this.handleError<any>('updateHerbQuantity'))
+      catchError(this.handleError<any>('updateMaterialQuantities'))
     );
   }
 
