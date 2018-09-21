@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="apiRest.database.mapper.XpMapper">
+
+	<resultMap type="apiRest.database.classe.Xp" id="xpResultMap">
+		<result property="level"			column="level" />
+		<result property="xpNeeded" 		column="xpneeded" />
+	</resultMap>
+
+	
+
+</mapper>
