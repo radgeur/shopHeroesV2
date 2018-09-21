@@ -17,7 +17,7 @@ export class MaterialService {
 
     constructor(private http: HttpClient) { }
 
-    selectAll(): Observable<any> {
+    getAll(): Observable<any> {
         return this.http.get(`${root}/all`, httpOptions)
             .pipe(
                 catchError(this.handleError<any>(`selectAllCategories`))

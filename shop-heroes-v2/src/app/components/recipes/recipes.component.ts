@@ -9,6 +9,7 @@ import { Material } from '../../objects/material';
 import { Subscription } from 'rxjs';
 import { PlayerService } from '../../services/player.service';
 import { RecipeService } from '../../services/recipe.service';
+import { Recipe } from '../../objects/recipe';
 
 @Component({
   selector: 'app-recipes',
@@ -21,6 +22,7 @@ export class RecipesComponent implements OnInit {
   playerSubscription: Subscription;
   categories: Category[];
   materials:Material[];
+  recipes: Recipe[];
   categoryForm: FormGroup;
   recipeForm: FormGroup;
 
@@ -38,6 +40,7 @@ export class RecipesComponent implements OnInit {
     this.playerService.emitPlayerSubject();
     this.getCategories();
     this.getMaterials();
+    this.getAllRecipes();
     this.initForm();
   }
 
@@ -73,14 +76,26 @@ export class RecipesComponent implements OnInit {
   }
 
   getCategories() {
-    this.categoryService.selectAll().subscribe(categories => {
+    this.categoryService.getAll().subscribe(categories => {
       this.categories = categories,
       this.recipeForm.controls['category'].setValue(categories[0], {onlySelf: true})
     });
   }
 
   getMaterials(){
-    this.materialService.selectAll().subscribe(materials => this.materials = materials);
+    this.materialService.getAll().subscribe(materials => this.materials = materials);
+  }
+
+  getAllRecipes(){
+    this.recipeService.getAll().subscribe(recipes => this.recipes = recipes);
+  }
+
+  getRecipesByCategory(category: Category){
+    this.recipeService.getRecipesByCategory(category).subscribe(recipes => this.recipes = recipes);
+  }
+
+  createRecipe(){
+    
   }
 
   getMaterialsFromForm(): FormArray {

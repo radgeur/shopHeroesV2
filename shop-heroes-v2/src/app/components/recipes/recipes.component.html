@@ -59,3 +59,24 @@
     </button>
   </form>
 </div>
+
+
+<div>
+  <h3>Recipes</h3>
+  <select>
+    <option (click)="getAllRecipes()">
+      All
+    </option>
+    <option *ngFor="let category of categories" (click)="getRecipesByCategory(category)">
+      {{category.name}}
+    </option>
+  </select>
+  <div *ngFor="let recipe of recipes" class="recipe">
+    {{recipe.name}} {{recipe.golds}} golds {{recipe.xp}} xp
+    <button type="button" (click)="createRecipe()">Create</button>
+    <p>
+      <span *ngFor="let material of recipe.materials"> {{material.name}} {{material.quantity}}</span>
+    </p>
+
+  </div>
+</div>

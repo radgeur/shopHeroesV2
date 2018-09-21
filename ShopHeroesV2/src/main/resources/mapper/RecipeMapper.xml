@@ -25,5 +25,12 @@
 		SELECT *
 		FROM recipe
 	</select>
+	
+	<select id="selectRecipesByIdCategory" parameterType="apiRest.database.classe.Category" resultMap="recipeResultMap">
+		SELECT *
+		FROM recipe r
+		LEFT JOIN category c ON r.category = c.id
+		WHERE c.id = #{id}
+	</select>
 
 </mapper>

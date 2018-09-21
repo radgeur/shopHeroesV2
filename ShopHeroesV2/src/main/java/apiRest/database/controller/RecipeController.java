@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import apiRest.MyBatisUtil;
+import apiRest.database.classe.Category;
 import apiRest.database.classe.Material;
 import apiRest.database.classe.Recipe;
 import apiRest.database.mapper.MaterialMapper;
@@ -55,6 +56,21 @@ public class RecipeController {
 		try {
 			RecipeMapper recipeMapper = session.getMapper(RecipeMapper.class);
 			result = recipeMapper.selectAllRecipes();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return result;
+	}
+	
+	@RequestMapping(value = "/getByCategory", method = RequestMethod.POST)
+	public List<Recipe> selectByCategory(@RequestBody Category category) {
+		SqlSession session = MyBatisUtil.getSession();
+		List<Recipe> result = null;
+		try {
+			RecipeMapper recipeMapper = session.getMapper(RecipeMapper.class);
+			result = recipeMapper.selectRecipesByIdCategory(category);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
