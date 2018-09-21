@@ -10,7 +10,8 @@ public interface PlayerMapper {
 	public Player selectPlayerById(long id);
 	
 	public void insertPlayer(Player player);
-	public void insertPlayerWorkerJob(Map<String, Integer> map);
+	public void insertPlayerWorkerJob(Map<String, Object> map);
+	public void insertPlayerMaterial(Map<String, Long> map);
 
 	public void updateQuantityForPlayerByMaterialId(Map<String, Long> map);
 	public void updateQuantities(Player player);

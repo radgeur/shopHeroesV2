@@ -16,6 +16,7 @@ import apiRest.MyBatisUtil;
 import apiRest.database.classe.Material;
 import apiRest.database.classe.Player;
 import apiRest.database.classe.Worker;
+import apiRest.database.mapper.MaterialMapper;
 import apiRest.database.mapper.PlayerMapper;
 import apiRest.database.mapper.WorkerMapper;
 
@@ -24,18 +25,33 @@ import apiRest.database.mapper.WorkerMapper;
 @RequestMapping("/player")
 public class PlayerController {
 
-	///////////////////////////////////////////////////// INSERT//////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////INSERT//////////////////////////////////////////////////////////////
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	public Player signUp(@RequestBody Player player) {
 		SqlSession session = MyBatisUtil.getSession();
 		Player result = null;
 		try {
+			//insertPlayer
 			final PlayerMapper playerMapper = session.getMapper(PlayerMapper.class);
 			playerMapper.insertPlayer(player);
+			
+			//add free workers
 			final WorkerMapper workerMapper = session.getMapper(WorkerMapper.class);
 			List<Worker> freeWorkers = workerMapper.selectFreeWorkers();
 			for (Worker worker : freeWorkers) {
 				addWorkerToPlayer(player.getId(), worker, playerMapper);
+			}
+			
+			//initialize all materials for the player at 0
+			MaterialMapper materialMapper = session.getMapper(MaterialMapper.class);
+			List<Material> materials = materialMapper.selectAllMaterials();
+			Map<String, Long> map = new HashMap<>();
+			for(Material material : materials) {
+				map.put("player", player.getId());
+				map.put("material", material.getId());
+				map.put("quantity", 0L);
+				playerMapper.insertPlayerMaterial(map);
+				map.clear();
 			}
 			session.commit();
 			result = getFullPlayer(player.getName(), player.getPassword(), playerMapper);
@@ -52,7 +68,7 @@ public class PlayerController {
 	public void insertPlayerWorkerJob(@RequestBody Worker worker, @RequestParam int idPlayer) {
 		SqlSession session = MyBatisUtil.getSession();
 		try {
-			PlayerMapper playerMapper = session.getMapper(PlayerMapper.class);
+			final PlayerMapper playerMapper = session.getMapper(PlayerMapper.class);
 			addWorkerToPlayer(idPlayer, worker, playerMapper);
 			Player player = playerMapper.selectPlayerById(idPlayer);
 			player.setGolds(player.getGolds() - worker.getGolds());
@@ -66,7 +82,7 @@ public class PlayerController {
 		}
 	}
 
-	///////////////////////////////////////////////////// GET//////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////GET//////////////////////////////////////////////////////////////
 	@RequestMapping(value = "/infos", method = RequestMethod.POST)
 	public Player getFullPlayerInfos(@RequestBody Player player) {
 		SqlSession session = MyBatisUtil.getSession();
@@ -97,12 +113,12 @@ public class PlayerController {
 		return result;
 	}
 
-	///////////////////////////////////////////////////// UPDATE//////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////UPDATE//////////////////////////////////////////////////////////////
 	@RequestMapping(value = "udpateMaterialQuantity", method = RequestMethod.POST)
 	public Player updateMaterialQuantity(@RequestBody Player player) {
 		SqlSession session = MyBatisUtil.getSession();
 		try {
-			PlayerMapper mapper = session.getMapper(PlayerMapper.class);
+			final PlayerMapper mapper = session.getMapper(PlayerMapper.class);
 			Map<String, Long> map = new HashMap<>();
 			for(Material material: player.getMaterials()) {
 				map.put("player", player.getId());
@@ -150,8 +166,8 @@ public class PlayerController {
 	}
 
 	private void addWorkerToPlayer(long id, Worker worker, PlayerMapper mapper) {
-		Map<String, Integer> map = new HashMap<>();
-		map.put("player", (Integer) (int) id);
+		Map<String, Object> map = new HashMap<>();
+		map.put("player", id);
 		map.put("worker", worker.getId());
 		map.put("job", worker.getJob().getId());
 		mapper.insertPlayerWorkerJob(map);

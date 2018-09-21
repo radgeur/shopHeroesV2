@@ -41,6 +41,11 @@
 			values (#{name},#{password})
 	</insert>
 	
+	<insert id="insertPlayerMaterial" parameterType="map">
+		INSERT INTO playermaterial
+			VALUES (#{player},#{material},#{quantity})
+	</insert>
+	
 	<insert id="insertPlayerWorkerJob" parameterType="map">
 		INSERT INTO playerworkerjob
 			values(#{player},#{worker},#{job})
