@@ -4,8 +4,7 @@
 <button id="signOut" (click)="signOut()">Sign Out</button>
 
 <div>
-  stone : {{player.stoneQuantity}} | wood : {{player.woodQuantity}} 
-  | leather : {{player.leatherQuantity}} | herb : {{player.herbQuantity}}
+  <span *ngFor="let material of player.materials"> {{material.name}}: {{material.quantity}} | </span>
   <br />
   {{player.golds}} Golds
   <nav>

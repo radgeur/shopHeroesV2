@@ -7,7 +7,7 @@ import apiRest.database.classe.Worker;
 public interface WorkerMapper {
 
 	public List<Worker> selectAllWorkersOrderByGolds();
-	public List<Worker> selectWorkersOfPlayerId(long id);
+	public List<Worker> selectWorkersByPlayerId(long id);
 	public List<Worker> selectFreeWorkers();
 	
 	public void insertWorker(Worker worker);

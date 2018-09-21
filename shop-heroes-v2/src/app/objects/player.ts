@@ -1,5 +1,6 @@
 import {Worker} from './worker';
 import {Job} from './job';
+import { Material } from './material';
 
 export class Player{
 
@@ -12,13 +13,10 @@ export class Player{
     name:string;
     password:string;
     level:number;
-    stonequantity:number;
-    leatherquantity:number;
-    woodquantity:number;
-    herbquantity:number;
     admin:boolean;
     golds:number;
     xp:number;
+    materials:Material[];
     workers:Worker[];
     jobs:Job[];
 }

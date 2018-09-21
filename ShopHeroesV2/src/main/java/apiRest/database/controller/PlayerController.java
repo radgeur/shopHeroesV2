@@ -67,7 +67,7 @@ public class PlayerController {
 	
 	/////////////////////////////////////////////////////GET//////////////////////////////////////////////////////////////
 	@RequestMapping(value = "/infos", method = RequestMethod.POST)
-	public Player getPlayerWithWorkersAndJobs(@RequestBody Player player) {
+	public Player getFullPlayerInfos(@RequestBody Player player) {
 		SqlSession session = MyBatisUtil.getSession();
 		Player result = null;
 		try {
@@ -97,7 +97,7 @@ public class PlayerController {
 	}
 
 	///////////////////////////////////////////////////// UPDATE//////////////////////////////////////////////////////////////
-	@RequestMapping(value = "/updateStoneQuantity", method = RequestMethod.POST)
+	/*@RequestMapping(value = "/updateStoneQuantity", method = RequestMethod.POST)
 	public Player updateStone(@RequestBody Player player, @RequestParam int quantity) {
 		SqlSession session = MyBatisUtil.getSession();
 		Player result = null;
@@ -194,7 +194,7 @@ public class PlayerController {
 			session.close();
 		}
 		return result;
-	}
+	}*/
 	
 	
 	////////////////////////////////////////////////////////OTHER//////////////////////////////////////////////////////////

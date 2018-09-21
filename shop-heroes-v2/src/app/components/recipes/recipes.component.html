@@ -31,21 +31,20 @@
     </label>
     <br />
     <label> Materials : <br />
-    <div formArrayName="materials" *ngFor="let materialControl of getMaterialsFromForm().controls; let i = index">
-      <div  [formGroupName]="i">
-        <select formControlName="id">
-          <option *ngFor="let material of materials" [ngValue]="material.id">
-            {{material.name}}
-          </option>
-        </select>
-        <input type="number" formControlName="quantity">
-        <button type="button" (click)="onDeleteMaterial(i)">Delete material</button>
+      <div formArrayName="materials" *ngFor="let materialControl of getMaterialsFromForm().controls; let i = index">
+        <div  [formGroupName]="i">
+          <select formControlName="id">
+            <option *ngFor="let material of materials" [ngValue]="material.id">
+              {{material.name}}
+            </option>
+          </select>
+          <input type="number" formControlName="quantity">
+          <button type="button" (click)="onDeleteMaterial(i)">Delete material</button>
+        </div>
       </div>
-    </div>
-    <button type="button" (click)="onAddMaterial()">Add material</button>
-    <br />
+      <button type="button" (click)="onAddMaterial()">Add material</button>
     </label>
-    
+    <br />
     <label> Category :
       <select formControlName="category">
         <option *ngFor="let category of categories" [ngValue]="category">

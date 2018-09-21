@@ -22,5 +22,6 @@
 		<mapper resource="mapper/CategoryMapper.xml" />
 		<mapper resource="mapper/MaterialMapper.xml" />
 		<mapper resource="mapper/RecipeMapper.xml" />
+		<mapper resource="mapper/xpMapper.xml" />
 	</mappers>
 </configuration>

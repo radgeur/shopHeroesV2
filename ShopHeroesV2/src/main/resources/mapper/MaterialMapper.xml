@@ -26,4 +26,11 @@
 		LEFT JOIN materialRecipe mp ON m.id = mp.material
 		WHERE recipe = #{idRecipe}
 	</select>
+	
+	<select id="selectMaterialByPlayerId" resultMap="materialResultMap">
+		SELECT m.id, m.name, pm.quantity
+		FROM material m
+		LEFT JOIN playermaterial pm ON m.id = pm.material
+		WHERE player = #{idPlayer}
+	</select>
 </mapper>

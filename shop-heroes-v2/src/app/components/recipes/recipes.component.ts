@@ -65,7 +65,8 @@ export class RecipesComponent implements OnInit {
   }
 
   addRecipeCategory() {
-    this.categoryService.addCategory(this.categoryForm.value['name']).subscribe(_ => this.getCategories());
+    console.log(this.recipeForm.value);
+    /*this.categoryService.addCategory(this.categoryForm.value['name']).subscribe(_ => this.getCategories());*/
     this.initCategoryForm();
   }
 

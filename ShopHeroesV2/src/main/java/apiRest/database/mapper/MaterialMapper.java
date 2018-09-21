@@ -11,5 +11,6 @@ public interface MaterialMapper {
 	
 	public List<Material> selectAllMaterials();
 	public List<Material> selectMaterialByRecipeId(long idRecipe);
+	public List<Material> selectMaterialByPlayerId(long idPlayer);
 	
 }
