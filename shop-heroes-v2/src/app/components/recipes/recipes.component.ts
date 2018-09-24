@@ -65,8 +65,7 @@ export class RecipesComponent implements OnInit {
   }
 
   addRecipeCategory() {
-    console.log(this.recipeForm.value);
-    /*this.categoryService.addCategory(this.categoryForm.value['name']).subscribe(_ => this.getCategories());*/
+    this.categoryService.addCategory(this.categoryForm.value['name']).subscribe(_ => this.getCategories());
     this.initCategoryForm();
   }
 
@@ -95,8 +94,24 @@ export class RecipesComponent implements OnInit {
     this.recipeService.getRecipesByCategory(category).subscribe(recipes => this.recipes = recipes);
   }
 
-  createRecipe(){
-    
+  createRecipe(recipe: Recipe){
+    this.player.golds += recipe.golds;
+    this.player.xp += recipe.xp;
+
+  }
+
+  enoughMaterials(recipe: Recipe): boolean {
+    var result = true;
+    this.player.materials.forEach(function(material){
+      recipe.materials.forEach(function(recipeMaterial){
+        if(material.id === recipeMaterial.id) {
+          if (material.quantity < recipeMaterial.quantity){
+            result = false;
+          }
+        }
+      })
+    });
+    return result;
   }
 
   getMaterialsFromForm(): FormArray {
