@@ -15,7 +15,7 @@ public class Player {
 	private int level;
 	private boolean admin;
 	private int golds;
-	private int xp;
+	private long xp;
 	private List<Material> materials;
 	private List<Worker> workers;
 	private List<Job> jobs;

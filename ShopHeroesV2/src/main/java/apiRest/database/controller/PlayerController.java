@@ -144,8 +144,10 @@ public class PlayerController {
 			final PlayerMapper playerMapper = session.getMapper(PlayerMapper.class);
 			final XpMapper xpMapper = session.getMapper(XpMapper.class);
 			Xp xp = xpMapper.selectXpByLevel(player.getLevel());
-			if(player.getXp() >= xp.getXpNeeded())
+			if(player.getXp() >= xp.getXpNeeded()) {
 				player.setLevel(player.getLevel() + 1);
+				player.setXp(player.getXp() - xp.getXpNeeded());
+			}
 			playerMapper.updatePlayer(player);
 			updateAllMaterialQuantities(player, playerMapper);
 			session.commit();
