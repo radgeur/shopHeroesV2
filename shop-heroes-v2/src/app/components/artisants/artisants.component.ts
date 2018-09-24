@@ -75,14 +75,10 @@ export class ArtisantsComponent implements OnInit{
   }
 
   buyWorker(worker: Worker) {
-    this.playerService.addWorkerToCurrentPlayer(this.player.id, worker).subscribe(
-      _ => {
-        this.playerService.getPlayerById(this.player.id).subscribe(player => {
-          this.player = player;
-          sessionStorage.setItem("player", JSON.stringify(player));
-          this.sortWorkers(this.workers);
-          this.playerService.emitPlayerSubject();
-        });
+    this.playerService.addWorkerToCurrentPlayer(this.player.id, worker).subscribe(player => {
+        sessionStorage.setItem("player", JSON.stringify(player));
+        this.playerService.emitPlayerSubject();
+        this.sortWorkers(this.workers);
       }
     );
   }

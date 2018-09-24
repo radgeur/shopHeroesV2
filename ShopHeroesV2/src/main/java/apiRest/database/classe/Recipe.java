@@ -15,6 +15,7 @@ public class Recipe {
 	private int minLevel;
 	private int golds;
 	private int xp;
+	private Job job;
 	private List<Material> materials;
 
 }

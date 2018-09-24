@@ -16,9 +16,11 @@ import apiRest.MyBatisUtil;
 import apiRest.database.classe.Material;
 import apiRest.database.classe.Player;
 import apiRest.database.classe.Worker;
+import apiRest.database.classe.Xp;
 import apiRest.database.mapper.MaterialMapper;
 import apiRest.database.mapper.PlayerMapper;
 import apiRest.database.mapper.WorkerMapper;
+import apiRest.database.mapper.XpMapper;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -65,12 +67,13 @@ public class PlayerController {
 	}
 
 	@RequestMapping(value = "/addWorkerToPlayer", method = RequestMethod.POST)
-	public void insertPlayerWorkerJob(@RequestBody Worker worker, @RequestParam int idPlayer) {
+	public Player insertPlayerWorkerJob(@RequestBody Worker worker, @RequestParam int idPlayer) {
 		SqlSession session = MyBatisUtil.getSession();
+		Player player = null;
 		try {
 			final PlayerMapper playerMapper = session.getMapper(PlayerMapper.class);
 			addWorkerToPlayer(idPlayer, worker, playerMapper);
-			Player player = playerMapper.selectPlayerById(idPlayer);
+			player = playerMapper.selectPlayerById(idPlayer);
 			player.setGolds(player.getGolds() - worker.getGolds());
 			playerMapper.updateGolds(player);
 			session.commit();
@@ -80,6 +83,7 @@ public class PlayerController {
 		} finally {
 			session.close();
 		}
+		return player;
 	}
 
 	/////////////////////////////////////////////////////GET//////////////////////////////////////////////////////////////
@@ -114,48 +118,46 @@ public class PlayerController {
 	}
 
 	/////////////////////////////////////////////////////UPDATE//////////////////////////////////////////////////////////////
-	@RequestMapping(value = "udpateMaterialQuantity", method = RequestMethod.POST)
+	@RequestMapping(value = "updateMaterialsQuantity", method = RequestMethod.POST)
 	public Player updateMaterialQuantity(@RequestBody Player player) {
 		SqlSession session = MyBatisUtil.getSession();
+		Player result = null;
 		try {
 			final PlayerMapper mapper = session.getMapper(PlayerMapper.class);
-			Map<String, Long> map = new HashMap<>();
-			for(Material material: player.getMaterials()) {
-				map.put("player", player.getId());
-				map.put("material", material.getId());
-				map.put("quantity", new Long(material.getQuantity()));
-				mapper.updateQuantityForPlayerByMaterialId(map);
-				map.clear();
-			}
-			player = mapper.selectPlayerById(player.getId());
+			updateAllMaterialQuantities(player, mapper);
 			session.commit();
+			result = mapper.selectPlayerById(player.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 			session.rollback();
 		} finally {
 			session.close();
 		}
-		return player;
+		return result;
 	}
-
-	/*
-	 * @RequestMapping(value = "/updateQuantities", method = RequestMethod.POST)
-	 * public Player updateQuantities(@RequestBody Player player, @RequestParam int
-	 * stoneQuantity,
-	 * 
-	 * @RequestParam int woodQuantity, @RequestParam int
-	 * leatherQuantity, @RequestParam int herbQuantity) { SqlSession session =
-	 * MyBatisUtil.getSession(); Player result = null; try { final PlayerMapper
-	 * mapper = session.getMapper(PlayerMapper.class); result =
-	 * mapper.selectPlayerById(player.getId());
-	 * result.setStoneQuantity(result.getStoneQuantity() + leatherQuantity);
-	 * result.setWoodQuantity(result.getWoodQuantity() + woodQuantity);
-	 * result.setLeatherQuantity(result.getLeatherQuantity() + leatherQuantity);
-	 * result.setHerbQuantity(result.getHerbQuantity() + herbQuantity);
-	 * mapper.updateQuantities(result); session.commit(); } catch (Exception e) {
-	 * session.rollback(); e.printStackTrace(); } finally { session.close(); }
-	 * return result; }
-	 */
+	
+	@RequestMapping(value = "updatePlayer", method = RequestMethod.POST)
+	public Player updatePlayer(@RequestBody Player player) {
+		SqlSession session = MyBatisUtil.getSession();
+		Player result = null;
+		try {
+			final PlayerMapper playerMapper = session.getMapper(PlayerMapper.class);
+			final XpMapper xpMapper = session.getMapper(XpMapper.class);
+			Xp xp = xpMapper.selectXpByLevel(player.getLevel());
+			if(player.getXp() >= xp.getXpNeeded())
+				player.setLevel(player.getLevel() + 1);
+			playerMapper.updatePlayer(player);
+			updateAllMaterialQuantities(player, playerMapper);
+			session.commit();
+			result = playerMapper.selectPlayerById(player.getId());
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.rollback();
+		} finally {
+			session.close();
+		}
+		return result;
+	}
 
 	////////////////////////////////////////////////////////OTHER//////////////////////////////////////////////////////////
 	private Player getFullPlayer(String name, String password, PlayerMapper mapper) {
@@ -171,5 +173,16 @@ public class PlayerController {
 		map.put("worker", worker.getId());
 		map.put("job", worker.getJob().getId());
 		mapper.insertPlayerWorkerJob(map);
+	}
+	
+	private void updateAllMaterialQuantities(Player player, PlayerMapper mapper) {
+		Map<String, Long> map = new HashMap<>();
+		for(Material material: player.getMaterials()) {
+			map.put("player", player.getId());
+			map.put("material", material.getId());
+			map.put("quantity", new Long(material.getQuantity()));
+			mapper.updateQuantityForPlayerByMaterialId(map);
+			map.clear();
+		}
 	}
 }

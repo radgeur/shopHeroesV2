@@ -7,6 +7,11 @@
 		<result property="xpNeeded" 		column="xpneeded" />
 	</resultMap>
 
+	<!-- select -->
+	<select id="selectXpByLevel" parameterType="int" resultMap="xpResultMap">
+		SELECT *
+		FROM xp
+		WHERE level = #{level}
+	</select>
 	
-
 </mapper>

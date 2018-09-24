@@ -58,10 +58,9 @@
 		WHERE player = #{player} AND material = #{material}
 	</update>
 	
-	<update id="updateQuantities" parameterType="apiRest.database.classe.Player">
+	<update id="updatePlayer" parameterType="apiRest.database.classe.Player">
 		UPDATE player SET
-			"stonequantity" = #{stoneQuantity}, "woodquantity" = #{woodQuantity},
-			 "leatherquantity" = #{leatherQuantity}, "herbquantity" = #{herbQuantity}
+			golds = #{golds}, xp = #{xp}, level = #{level}
 		WHERE id = #{id}
 	</update>
 	

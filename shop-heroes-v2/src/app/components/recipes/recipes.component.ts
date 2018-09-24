@@ -97,21 +97,39 @@ export class RecipesComponent implements OnInit {
   createRecipe(recipe: Recipe){
     this.player.golds += recipe.golds;
     this.player.xp += recipe.xp;
-
+    this.player.materials.forEach(function(material){
+      recipe.materials.forEach(function(recipeMaterial){
+        if(material.id === recipeMaterial.id) {
+          material.quantity -= recipeMaterial.quantity;
+        }
+      })
+    });
+    this.playerService.updatePlayer(this.player).subscribe(player => {
+      sessionStorage.setItem("player", JSON.stringify(player));
+      this.playerService.emitPlayerSubject();
+    })
   }
 
-  enoughMaterials(recipe: Recipe): boolean {
-    var result = true;
+  canCreate(recipe: Recipe): boolean{
+    //check if enough materials
+    var enoughMaterials = true;
     this.player.materials.forEach(function(material){
       recipe.materials.forEach(function(recipeMaterial){
         if(material.id === recipeMaterial.id) {
           if (material.quantity < recipeMaterial.quantity){
-            result = false;
+            enoughMaterials = false;
           }
         }
       })
     });
-    return result;
+
+    //check if own the right job
+    var rightJob = false;
+    this.player.jobs.forEach(function(job){
+      if(recipe.job.id === job.id)
+        rightJob = true;
+    });
+    return rightJob && enoughMaterials;
   }
 
   getMaterialsFromForm(): FormArray {

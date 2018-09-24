@@ -72,7 +72,7 @@
   </select>
   <div *ngFor="let recipe of recipes" class="recipe">
     {{recipe.name}} {{recipe.golds}} golds {{recipe.xp}} xp
-    <button type="button" (click)="createRecipe(recipe)" [disabled]="!enoughMaterials(recipe)">
+    <button type="button" (click)="createRecipe(recipe)" [disabled]="!canCreate(recipe)">
       Create
     </button>
     <p>

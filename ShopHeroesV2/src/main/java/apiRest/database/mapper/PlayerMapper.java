@@ -14,7 +14,7 @@ public interface PlayerMapper {
 	public void insertPlayerMaterial(Map<String, Long> map);
 
 	public void updateQuantityForPlayerByMaterialId(Map<String, Long> map);
-	public void updateQuantities(Player player);
+	public void updatePlayer(Player player);
 	public void updateGolds(Player player);
 	
 }

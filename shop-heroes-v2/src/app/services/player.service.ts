@@ -50,10 +50,17 @@ export class PlayerService {
       );
   }
 
-  updateMaterialQuantities(player: Player): Observable<Player> {
-    return this.http.post(`${root}/udpateMaterialQuantity`, player, httpOptions)
+  updateMaterialsQuantity(player: Player): Observable<Player> {
+    return this.http.post(`${root}/updateMaterialsQuantity`, player, httpOptions)
     .pipe(
-      catchError(this.handleError<any>('updateMaterialQuantities'))
+      catchError(this.handleError<any>('updateMaterialsQuantity'))
+    );
+  }
+
+  updatePlayer(player: Player): Observable<Player> {
+    return this.http.post(`${root}/updatePlayer`, player, httpOptions)
+    .pipe(
+      catchError(this.handleError<any>('updatePlayer'))
     );
   }
 

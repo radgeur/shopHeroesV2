@@ -28,7 +28,7 @@ export class ResourcesComponent implements OnInit {
         m.quantity += quantity*1;
       return m;
     })
-    this.playerService.updateMaterialQuantities(this.player).subscribe(player => {
+    this.playerService.updateMaterialsQuantity(this.player).subscribe(player => {
       sessionStorage.setItem("player", JSON.stringify(player));
       this.playerService.emitPlayerSubject();
     })

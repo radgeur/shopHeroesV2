@@ -1,5 +1,6 @@
 import { Material } from "./material";
 import { Category } from "./category";
+import { Job } from "./job";
 
 export class Recipe {
 
@@ -19,5 +20,6 @@ export class Recipe {
     minLevel: number;
     materials: Material[];
     category: Category;
+    job: Job;
 
 }
