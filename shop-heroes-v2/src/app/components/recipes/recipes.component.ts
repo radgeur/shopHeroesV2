@@ -10,6 +10,8 @@ import { Subscription } from 'rxjs';
 import { PlayerService } from '../../services/player.service';
 import { RecipeService } from '../../services/recipe.service';
 import { Recipe } from '../../objects/recipe';
+import { Job } from '../../objects/job';
+import { JobService } from '../../services/job.service';
 
 @Component({
   selector: 'app-recipes',
@@ -22,6 +24,7 @@ export class RecipesComponent implements OnInit {
   playerSubscription: Subscription;
   categories: Category[];
   materials:Material[];
+  jobs:Job[];
   recipes: Recipe[];
   categoryForm: FormGroup;
   recipeForm: FormGroup;
@@ -30,7 +33,8 @@ export class RecipesComponent implements OnInit {
     private materialService: MaterialService,
     private formBuilder: FormBuilder,
     private playerService: PlayerService,
-    private recipeService: RecipeService) { 
+    private recipeService: RecipeService,
+    private jobService: JobService) { 
       this.categories = null;
       this.materials = null;
     }
@@ -41,6 +45,7 @@ export class RecipesComponent implements OnInit {
     this.getCategories();
     this.getMaterials();
     this.getAllRecipes();
+    this.getJobs();
     this.initForm();
   }
 
@@ -57,7 +62,8 @@ export class RecipesComponent implements OnInit {
       xp: 0,
       minLevel: 1,
       materials: this.formBuilder.array([]),
-      category: ''
+      category: '',
+      job: ''
     });
     /*new Recipe('', 0, 0, 1, null, new Category(''))
     this.recipeForm.controls['materials'].setValue(this.formBuilder.array([]));
@@ -70,25 +76,26 @@ export class RecipesComponent implements OnInit {
   }
 
   addRecipe() {
-    this.recipeService.addRecipe(this.recipeForm.value).subscribe();
-    this.initRecipeForm();
+    this.recipeService.addRecipe(this.recipeForm.value).subscribe(_ => this.getAllRecipes());
+    /*this.initRecipeForm();
     this.recipeForm.controls['category'].setValue(this.categories[0], {onlySelf: true});
+    this.recipeForm.controls['job'].setValue(this.jobs[0], {onlySelf: true});*/
   }
 
   getCategories() {
     this.categoryService.getAll().subscribe(categories => {
       this.categories = categories,
-      this.recipeForm.controls['category'].setValue(categories[0], {onlySelf: true})
+      this.recipeForm.controls['category'].setValue(categories[0], {onlySelf: true});
     });
   }
 
-  getMaterials(){
-    this.materialService.getAll().subscribe(materials => this.materials = materials);
-  }
-
-  getAllRecipes(){
-    this.recipeService.getAll().subscribe(recipes => this.recipes = recipes);
-  }
+  getMaterials(){ this.materialService.getAll().subscribe(materials => this.materials = materials); }
+  getAllRecipes(){ this.recipeService.getAll().subscribe(recipes => this.recipes = recipes); }
+  getJobs(){ this.jobService.selectAll().subscribe(jobs => {
+      this.jobs = jobs;
+      this.recipeForm.controls['job'].setValue(jobs[0], {onlySelf: true});
+    }
+  );}
 
   getRecipesByCategory(category: Category){
     this.recipeService.getRecipesByCategory(category).subscribe(recipes => this.recipes = recipes);

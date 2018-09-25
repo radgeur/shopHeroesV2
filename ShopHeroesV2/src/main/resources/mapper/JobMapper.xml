@@ -29,6 +29,7 @@
 	<select id="selectAllJobs" parameterType="apiRest.database.classe.Job" resultMap="jobResultMap">
 		SELECT *
 		FROM job
+		ORDER BY name ASC
 	</select>
 	
 </mapper>

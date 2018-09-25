@@ -19,13 +19,14 @@
 	
 	<!-- insert -->
 	<insert id="insertRecipe" parameterType="apiRest.database.classe.Recipe" keyProperty="id" useGeneratedKeys="true" keyColumn="id">
-		INSERT INTO recipe(name, minlevel, golds, xp, category) values (#{name}, #{minLevel}, #{golds}, #{xp}, #{category.id})
+		INSERT INTO recipe(name, minlevel, golds, xp, category, job) values (#{name}, #{minLevel}, #{golds}, #{xp}, #{category.id}, #{job.id})
 	</insert>
 	
 	<!-- select -->
 	<select id="selectAllRecipes" resultMap="recipeResultMap">
 		SELECT *
 		FROM recipe
+		ORDER BY minLevel DESC
 	</select>
 	
 	<select id="selectRecipesByIdCategory" parameterType="apiRest.database.classe.Category" resultMap="recipeResultMap">
@@ -33,6 +34,7 @@
 		FROM recipe r
 		LEFT JOIN category c ON r.category = c.id
 		WHERE c.id = #{id}
+		ORDER BY minLevel DESC
 	</select>
 
 </mapper>

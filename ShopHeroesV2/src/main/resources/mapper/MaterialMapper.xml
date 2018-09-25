@@ -9,7 +9,7 @@
 	
 	<!-- insert -->
 	<insert id="insertMaterialQuantity" parameterType="map">
-		INSERT INTO materialrecipe 
+		INSERT INTO materialrecipe(recipe, material, quantity) 
 		VALUES (#{recipe}, #{material}, #{quantity})
 	</insert>
 	

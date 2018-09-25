@@ -30,6 +30,7 @@ public class RecipeController {
 		try {
 			RecipeMapper recipeMapper = session.getMapper(RecipeMapper.class);
 			recipeMapper.insertRecipe(recipe);
+			session.commit();
 			MaterialMapper materialMapper = session.getMapper(MaterialMapper.class);
 			Map<String, Object> map = new HashMap<>();
 			for(Material material: recipe.getMaterials()) {

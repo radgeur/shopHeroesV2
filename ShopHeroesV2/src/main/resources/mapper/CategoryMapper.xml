@@ -10,6 +10,7 @@
 	<select id="selectAllCategories" resultMap="categoryResultMap">
 		SELECT *
 		FROM category
+		ORDER BY name ASC
 	</select>
 	
 	<select id="selectCategoryById" parameterType="long" resultMap="categoryResultMap">
