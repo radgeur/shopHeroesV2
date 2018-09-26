@@ -77,9 +77,9 @@ export class RecipesComponent implements OnInit {
 
   addRecipe() {
     this.recipeService.addRecipe(this.recipeForm.value).subscribe(_ => this.getAllRecipes());
-    /*this.initRecipeForm();
+    this.initRecipeForm();
     this.recipeForm.controls['category'].setValue(this.categories[0], {onlySelf: true});
-    this.recipeForm.controls['job'].setValue(this.jobs[0], {onlySelf: true});*/
+    this.recipeForm.controls['job'].setValue(this.jobs[0], {onlySelf: true});
   }
 
   getCategories() {
