@@ -34,11 +34,13 @@ public class RecipeController {
 			MaterialMapper materialMapper = session.getMapper(MaterialMapper.class);
 			Map<String, Object> map = new HashMap<>();
 			for(Material material: recipe.getMaterials()) {
-				map.put("recipe", recipe.getId());
-				map.put("material", material.getId());
-				map.put("quantity", material.getQuantity());
-				materialMapper.insertMaterialQuantity(map);
-				map.clear();
+				if(material.getQuantity() > 0) {
+					map.put("recipe", recipe.getId());
+					map.put("material", material.getId());
+					map.put("quantity", material.getQuantity());
+					materialMapper.insertMaterialQuantity(map);
+					map.clear();
+				}
 			}
 			session.commit();
 		} catch (Exception e) {

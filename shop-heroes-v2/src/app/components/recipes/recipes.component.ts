@@ -42,11 +42,11 @@ export class RecipesComponent implements OnInit {
   ngOnInit() {
     this.playerSubscription = this.playerService.playerSubject.subscribe(player => this.player = player);
     this.playerService.emitPlayerSubject();
+    this.initForm();
     this.getCategories();
     this.getMaterials();
     this.getAllRecipes();
     this.getJobs();
-    this.initForm();
   }
 
   initForm() {
@@ -65,9 +65,6 @@ export class RecipesComponent implements OnInit {
       category: '',
       job: ''
     });
-    /*new Recipe('', 0, 0, 1, null, new Category(''))
-    this.recipeForm.controls['materials'].setValue(this.formBuilder.array([]));
-    this.recipeForm.patchValue({'materials': this.formBuilder.array([])})*/
   }
 
   addRecipeCategory() {
@@ -89,7 +86,14 @@ export class RecipesComponent implements OnInit {
     });
   }
 
-  getMaterials(){ this.materialService.getAll().subscribe(materials => this.materials = materials); }
+  getMaterials() { 
+      this.materialService.getAll().subscribe(materials => {
+      this.materials = materials;
+      materials.forEach(function(material) {
+        this.recipeForm.get('materials').push(this.formBuilder.group(new Material(material.id, material.name, 0)));
+      }, this);
+    }); 
+  }
   getAllRecipes(){ this.recipeService.getAll().subscribe(recipes => this.recipes = recipes); }
   getJobs(){ this.jobService.selectAll().subscribe(jobs => {
       this.jobs = jobs;
