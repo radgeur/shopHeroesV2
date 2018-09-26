@@ -94,7 +94,7 @@ export class RecipesComponent implements OnInit {
       }, this);
     }); 
   }
-  getAllRecipes(){ this.recipeService.getAll().subscribe(recipes => this.recipes = recipes); }
+  getAllRecipes(){ this.recipeService.getAll(this.player.level).subscribe(recipes => this.recipes = recipes); }
   getJobs(){ this.jobService.selectAll().subscribe(jobs => {
       this.jobs = jobs;
       this.recipeForm.controls['job'].setValue(jobs[0], {onlySelf: true});

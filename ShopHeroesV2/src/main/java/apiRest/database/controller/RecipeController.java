@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import apiRest.MyBatisUtil;
@@ -53,12 +54,12 @@ public class RecipeController {
 	
 	/////////////////////////////////////////////////////GET//////////////////////////////////////////////////////////////
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
-	public List<Recipe> selectAll() {
+	public List<Recipe> selectAll(@RequestParam int levelPlayer) {
 		SqlSession session = MyBatisUtil.getSession();
 		List<Recipe> result = null;
 		try {
 			RecipeMapper recipeMapper = session.getMapper(RecipeMapper.class);
-			result = recipeMapper.selectAllRecipes();
+			result = recipeMapper.selectRecipesLessThanPlayerLevel(levelPlayer);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

@@ -26,8 +26,8 @@ export class RecipeService {
         );
     }
 
-    getAll(): Observable<any> {
-      return this.http.get(`${root}/getAll`, httpOptions)
+    getAll(levelPlayer: number): Observable<any> {
+      return this.http.get(`${root}/getAll?levelPlayer=${levelPlayer}`, httpOptions)
       .pipe(
         catchError(this.handleError<any>('getAll'))
       );
