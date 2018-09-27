@@ -12,8 +12,16 @@
 
 
 <div *ngIf="player.admin">
-  <h3> Add a new Recipe</h3>
+  <h3> Add or update a Recipe</h3>
   <form (ngSubmit)="addRecipe()" [formGroup]="recipeForm">
+    <label> Recipe :
+      <select>
+        <option *ngFor="let recipe of recipes" (click)="fillRecipeForm(recipe)">
+          {{recipe.name}}
+        </option>
+      </select>
+    </label>
+    <br />
     <label>Name :
       <input formControlName="name"/>
     </label>
@@ -72,10 +80,13 @@
       {{category.name}}
     </option>
   </select>
-  <div *ngFor="let recipe of recipes" class="recipe">
+  <div *ngFor="let recipe of recipes" class="recipe" [hidden]="!canSeeRecipe(recipe)">
     {{recipe.name}} {{recipe.golds}} golds {{recipe.xp}} xp
     <button type="button" (click)="createRecipe(recipe)" [disabled]="!canCreate(recipe)">
       Create
+    </button>
+    <button type="button" (click)="deleteRecipe(recipe)" [hidden]="!player.admin">
+      Delete
     </button>
     <p>
       <span *ngFor="let material of recipe.materials"> {{material.name}} {{material.quantity}}</span>

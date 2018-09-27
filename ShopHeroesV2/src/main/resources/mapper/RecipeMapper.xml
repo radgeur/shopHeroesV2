@@ -23,10 +23,9 @@
 	</insert>
 	
 	<!-- select -->
-	<select id="selectRecipesLessThanPlayerLevel" resultMap="recipeResultMap">
+	<select id="selectAllRecipes" resultMap="recipeResultMap">
 		SELECT *
 		FROM recipe
-		WHERE minLevel &lt;= #{levelPlayer}
 		ORDER BY minLevel DESC
 	</select>
 	
@@ -37,5 +36,16 @@
 		WHERE c.id = #{id}
 		ORDER BY minLevel DESC
 	</select>
+	
+	<!-- delete -->
+	<delete id="deleteRecipe" parameterType="long">
+		DELETE FROM recipe
+		WHERE id = #{idRecipe}
+	</delete>
+	
+	<delete id="deleteMaterialRecipe" parameterType="long">
+		DELETE FROM materialrecipe
+		WHERE recipe = #{idRecipe}
+	</delete>
 
 </mapper>

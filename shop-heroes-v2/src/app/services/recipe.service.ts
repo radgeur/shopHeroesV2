@@ -26,8 +26,8 @@ export class RecipeService {
         );
     }
 
-    getAll(levelPlayer: number): Observable<any> {
-      return this.http.get(`${root}/getAll?levelPlayer=${levelPlayer}`, httpOptions)
+    getAll(): Observable<any> {
+      return this.http.get(`${root}/getAll`, httpOptions)
       .pipe(
         catchError(this.handleError<any>('getAll'))
       );
@@ -38,7 +38,14 @@ export class RecipeService {
         .pipe(
           catchError(this.handleError<Category>('getRecipesByCategory'))
         );
-    } 
+    }
+
+    deleteRecipe(recipe: Recipe): Observable<any> {
+      return this.http.delete<Recipe>(`${root}/deleteRecipe?idRecipe=${recipe.id}`, httpOptions)
+        .pipe(
+          catchError(this.handleError<Category>('deleteRecipe'))
+        );
+    }
  
     /**
      * Handle Http operation that failed.

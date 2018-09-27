@@ -9,7 +9,10 @@ public interface RecipeMapper {
 
 	public void insertRecipe(Recipe recipe);
 	
-	public List<Recipe> selectRecipesLessThanPlayerLevel(int levelPlayer);
+	public List<Recipe> selectAllRecipes();
 	public List<Recipe> selectRecipesByIdCategory(Category category);
+	
+	public void deleteRecipe(long idRecipe);
+	public void deleteMaterialRecipe(long idRecipe);
 	
 }

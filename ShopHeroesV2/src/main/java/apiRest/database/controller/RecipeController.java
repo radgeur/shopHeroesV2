@@ -54,12 +54,12 @@ public class RecipeController {
 	
 	/////////////////////////////////////////////////////GET//////////////////////////////////////////////////////////////
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
-	public List<Recipe> selectAll(@RequestParam int levelPlayer) {
+	public List<Recipe> selectAll() {
 		SqlSession session = MyBatisUtil.getSession();
 		List<Recipe> result = null;
 		try {
 			RecipeMapper recipeMapper = session.getMapper(RecipeMapper.class);
-			result = recipeMapper.selectRecipesLessThanPlayerLevel(levelPlayer);
+			result = recipeMapper.selectAllRecipes();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -82,5 +82,21 @@ public class RecipeController {
 		}
 		return result;
 	}
-
+	
+	/////////////////////////////////////////////////////DELETE//////////////////////////////////////////////////////////////
+	@RequestMapping(value = "/deleteRecipe", method = RequestMethod.DELETE)
+	public void deleteRecipe(@RequestParam long idRecipe) {
+		SqlSession session = MyBatisUtil.getSession();
+		try {
+			RecipeMapper recipeMapper = session.getMapper(RecipeMapper.class);
+			recipeMapper.deleteMaterialRecipe(idRecipe);
+			recipeMapper.deleteRecipe(idRecipe);
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.rollback();
+		} finally {
+			session.close();
+		}
+	}
 }

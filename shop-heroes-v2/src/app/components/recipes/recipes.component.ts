@@ -94,7 +94,7 @@ export class RecipesComponent implements OnInit {
       }, this);
     }); 
   }
-  getAllRecipes(){ this.recipeService.getAll(this.player.level).subscribe(recipes => this.recipes = recipes); }
+  getAllRecipes(){ this.recipeService.getAll().subscribe(recipes => this.recipes = recipes); }
   getJobs(){ this.jobService.selectAll().subscribe(jobs => {
       this.jobs = jobs;
       this.recipeForm.controls['job'].setValue(jobs[0], {onlySelf: true});
@@ -143,17 +143,22 @@ export class RecipesComponent implements OnInit {
     return rightJob && enoughMaterials;
   }
 
-  getMaterialsFromForm(): FormArray {
-    return this.recipeForm.get('materials') as FormArray;
+  canSeeRecipe(recipe: Recipe) {
+    if(this.player.admin)
+      return true;
+    return recipe.minLevel <= this.player.level;
   }
 
-  onAddMaterial() {
-    var item = this.formBuilder.group(new Material(0, 'unknown', 0));
-    this.getMaterialsFromForm().push(item);
+  deleteRecipe(recipe: Recipe){
+    this.recipeService.deleteRecipe(recipe).subscribe( _ => this.getAllRecipes());
   }
 
-  onDeleteMaterial(index: number){
-    this.getMaterialsFromForm().removeAt(index);
+  fillRecipeForm(recipe: Recipe) {
+    this.recipeForm = this.formBuilder.group(recipe);
+    var categoryIndex = this.categories.map(function(category) { return category.id }).indexOf(recipe.category.id);
+    this.recipeForm.patchValue({category: this.categories[categoryIndex]});
+    var jobIndex = this.jobs.map(function(job) { return job.id }).indexOf(recipe.job.id);
+    this.recipeForm.patchValue({job: this.jobs[jobIndex]});
   }
 
 }
