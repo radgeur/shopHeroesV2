@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 
 import {Player} from '../../objects/player';
@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './artisants.component.html',
   styleUrls: ['./artisants.component.css']
 })
-export class ArtisantsComponent implements OnInit{
+export class ArtisantsComponent implements OnInit, OnDestroy{
 
   player: Player;
   playerSubscription: Subscription;
@@ -105,6 +105,10 @@ export class ArtisantsComponent implements OnInit{
         self.notOwnedWorkers.push(worker);
       self.workers.push(worker);
     })
+  }
+
+  ngOnDestroy() {
+    this.playerSubscription.unsubscribe();
   }
 
 }

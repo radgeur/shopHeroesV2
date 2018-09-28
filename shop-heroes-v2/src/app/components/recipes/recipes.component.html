@@ -41,7 +41,7 @@
     <label> Materials : <br />
       <div formArrayName="materials" *ngFor="let material of materials; let i = index">
         <div  [formGroupName]="i">
-          <label> {{material.name}}
+          <label> {{material.name | titlecase}}
             <input type="number" formControlName="quantity">
           </label>
         </div>
@@ -58,7 +58,7 @@
     <label> Job :
       <select formControlName="job">
         <option *ngFor="let job of jobs" [ngValue]="job">
-          {{job.name}}
+          {{job.name | titlecase}}
         </option>
       </select>
     </label>

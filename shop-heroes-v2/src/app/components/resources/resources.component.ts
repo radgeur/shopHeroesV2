@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { PlayerService } from '../../services/player.service';
 import {Player} from '../../objects/player';
@@ -10,7 +10,7 @@ import { Material } from '../../objects/material';
   templateUrl: './resources.component.html',
   styleUrls: ['./resources.component.css']
 })
-export class ResourcesComponent implements OnInit {
+export class ResourcesComponent implements OnInit, OnDestroy {
 
   player: Player;
   playerSubscription: Subscription;
@@ -32,6 +32,10 @@ export class ResourcesComponent implements OnInit {
       sessionStorage.setItem("player", JSON.stringify(player));
       this.playerService.emitPlayerSubject();
     })
+  }
+
+  ngOnDestroy() {
+    this.playerSubscription.unsubscribe();
   }
 
 }

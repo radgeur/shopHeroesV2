@@ -8,7 +8,7 @@
 <div *ngIf="player.admin">
   <br/><br/>
   <span *ngFor="let material of player.materials; let i = index">
-    <label> {{material.name}} : 
+    <label> {{material.name | titlecase}} : 
       <input #quantity type="number"/>
     </label>
     <button (click)="updateMaterialQuantity(material, quantity.value)">

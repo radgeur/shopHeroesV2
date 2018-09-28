@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Player } from '../../objects/player';
 import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
@@ -18,7 +18,7 @@ import { JobService } from '../../services/job.service';
   templateUrl: './recipes.component.html',
   styleUrls: ['./recipes.component.css']
 })
-export class RecipesComponent implements OnInit {
+export class RecipesComponent implements OnInit, OnDestroy {
 
   player : Player;
   playerSubscription: Subscription;
@@ -159,6 +159,23 @@ export class RecipesComponent implements OnInit {
     this.recipeForm.patchValue({category: this.categories[categoryIndex]});
     var jobIndex = this.jobs.map(function(job) { return job.id }).indexOf(recipe.job.id);
     this.recipeForm.patchValue({job: this.jobs[jobIndex]});
+    this.fillMaterialsRecipeForm(recipe.materials);
+  }
+
+  fillMaterialsRecipeForm(materials: Material[]) {
+    var materialsForm = this.materials.slice();
+    this.materials.forEach(function(material){
+      materials.forEach(function(materialRecipe){
+        if(materialRecipe.id == material.id)
+          material.quantity = materialRecipe.quantity;
+      });
+    });
+    this.recipeForm.patchValue({materials: materialsForm});
+    console.log(this.recipeForm.value);
+  }
+
+  ngOnDestroy() {
+    this.playerSubscription.unsubscribe();
   }
 
 }
