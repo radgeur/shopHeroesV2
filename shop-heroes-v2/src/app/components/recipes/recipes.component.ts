@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { Player } from '../../objects/player';
 import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
@@ -18,7 +18,7 @@ import { JobService } from '../../services/job.service';
   templateUrl: './recipes.component.html',
   styleUrls: ['./recipes.component.css']
 })
-export class RecipesComponent implements OnInit, OnDestroy {
+export class RecipesComponent implements OnInit {
 
   player : Player;
   playerSubscription: Subscription;
@@ -172,10 +172,6 @@ export class RecipesComponent implements OnInit, OnDestroy {
     });
     this.recipeForm.patchValue({materials: materialsForm});
     console.log(this.recipeForm.value);
-  }
-
-  ngOnDestroy() {
-    this.playerSubscription.unsubscribe();
   }
 
 }
